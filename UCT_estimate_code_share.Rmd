@@ -1,0 +1,34 @@
+---
+title: "UCT_estimate_code_share"
+author: "Nick_Fox"
+date: "7/13/2018"
+output: html_document
+---
+
+The following is code used to generate the unmatched count estimate (UCT) and bootstrapped 95% confidence intervals of the proportion of American psychologists who have used at least one Questionable Research Practice in the past 12 months -  from Fox, Honeycutt, and Jussim 2018.  Please direct any questions to Nick Fox at nwf7@psych.rutgers.edu.
+
+To see the output generated from the data, simply hit the knit button!
+
+---------
+
+From the 'boot' package, the estimate is output as "t1*".  For more info about the 'boot' package, see its documentation on CRAN: https://cran.r-project.org/web/packages/boot/boot.pdf
+
+```{r echo = FALSE}
+#install packages - remove the hashtag if you need to install these packages, otherwise keep them hashed out.
+#install.packages("tidyverse")
+#install.packages("boot")
+
+#load packages
+suppressWarnings(suppressPackageStartupMessages(library(tidyverse)))
+suppressWarnings(suppressPackageStartupMessages(library(boot)))
+
+```
+
+```{r echo = FALSE}
+
+#reading in the data
+#you'll want to have the data file 'direct_estimate_share' in your working directory.
+
+UCT_data <- read.csv(".csv", header = TRUE)
+
+```

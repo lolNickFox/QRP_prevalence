@@ -1,0 +1,57 @@
+---
+title: "Direct Estimate Code - from Fox, Honeycutt, and Jussim 2018"
+author: "Nick Fox"
+date: "7/13/2018"
+output: html_document
+---
+
+The following is code used to generate the direct estimate and bootstrapped 95% confidence intervals of the proportion of American psychologists who have used at least one Questionable Research Practice in the past 12 months -  from Fox, Honeycutt, and Jussim 2018.  Please direct any questions to Nick Fox at nwf7@psych.rutgers.edu.
+
+To see the output generated from the data, simply hit the knit button!
+
+---------
+
+From the 'boot' package, the estimate is output as "t1*".  For more info about the 'boot' package, see its documentation on CRAN: https://cran.r-project.org/web/packages/boot/boot.pdf
+
+```{r echo = FALSE}
+#install packages - remove the hashtag if you need to install these packages, otherwise keep them hashed out.
+#install.packages("tidyverse")
+#install.packages("boot")
+
+#load packages
+suppressWarnings(suppressPackageStartupMessages(library(tidyverse)))
+suppressWarnings(suppressPackageStartupMessages(library(boot)))
+
+```
+
+```{r echo = FALSE}
+
+#reading in the data
+#you'll want to have the data file 'direct_estimate_share' in your working directory.
+
+direct_estimate_data <- read.csv("direct_estimate_share.csv", header = TRUE)
+
+```
+
+```{r echo = FALSE}
+#direct estimate function
+DE <- function(d, i){
+  d2 <- d[i,]
+  return((sum(d2$QRP_USE)/length(d2$QRP_USE)))
+}
+
+```
+
+```{r echo = FALSE}
+#sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
+set.seed(626)
+#create bootstrap with 10,000 replicates
+boot_DE <- boot(direct_estimate_data, DE, R=10000)
+#create output of bootstrapped estimate
+boot_DE
+#create histogram of bootstrapped estimate
+plot(boot_DE)
+#generate normal, basic, percentile, and BCa bootstrapped 95% CIs
+boot.ci(boot.out = boot_DE, type = c("norm", "basic", "perc", "bca"))
+
+```
