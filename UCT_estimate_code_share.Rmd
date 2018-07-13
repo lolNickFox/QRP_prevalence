@@ -5,7 +5,7 @@ date: "7/13/2018"
 output: html_document
 ---
 
-The following is code used to generate the unmatched count estimate (UCT) and bootstrapped 95% confidence intervals of the proportion of American psychologists who have used at least one Questionable Research Practice in the past 12 months -  from Fox, Honeycutt, and Jussim 2018.  Please direct any questions to Nick Fox at nwf7@psych.rutgers.edu.
+The following is code used to generate the direct estimate and bootstrapped 95% confidence intervals of the proportion of American psychologists who have used at least one Questionable Research Practice in the past 12 months -  from Fox, Honeycutt, and Jussim 2018.  Please direct any questions to Nick Fox at nwf7@psych.rutgers.edu.
 
 To see the output generated from the data, simply hit the knit button!
 
@@ -14,6 +14,8 @@ To see the output generated from the data, simply hit the knit button!
 From the 'boot' package, the estimate is output as "t1*".  For more info about the 'boot' package, see its documentation on CRAN: https://cran.r-project.org/web/packages/boot/boot.pdf
 
 ```{r echo = FALSE}
+options(warn=-1)
+
 #install packages - remove the hashtag if you need to install these packages, otherwise keep them hashed out.
 #install.packages("tidyverse")
 #install.packages("boot")
@@ -27,8 +29,41 @@ suppressWarnings(suppressPackageStartupMessages(library(boot)))
 ```{r echo = FALSE}
 
 #reading in the data
-#you'll want to have the data file 'direct_estimate_share' in your working directory.
+#you'll want to have the data file 'UCT_estimate_share' in your working directory.
 
-UCT_data <- read.csv(".csv", header = TRUE)
+UCT_data <- read.csv("UCT_estimate_share.csv", header = TRUE)
+
+```
+
+```{r echo = FALSE}
+#UCT estimate function
+UCTE <- function(d, i){
+  data <- d[i,]
+  
+  control_items <- data %>%
+    filter(survey == 1) %>% 
+    summarise(mean = mean(affirmed_items))
+  
+  sensitive_items <- data %>% 
+    filter(survey == 2) %>% 
+    summarise(mean = mean(affirmed_items))
+  
+  return(sensitive_items$mean - control_items$mean)
+}
+
+```
+
+
+```{r echo = FALSE}
+#sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
+set.seed(626)
+#create bootstrap with 10,000 replicates
+boot_UCTE <- boot(UCT_data, UCTE, R=10000)
+#create output of bootstrapped estimate
+boot_UCTE
+#create histogram of bootstrapped estimate
+plot(boot_UCTE)
+#generate normal, basic, percentile, and BCa bootstrapped 95% CIs
+boot.ci(boot.out = boot_UCTE, type = c("norm", "basic", "perc", "bca"))
 
 ```
