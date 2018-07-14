@@ -29,27 +29,18 @@ suppressWarnings(suppressPackageStartupMessages(library(boot)))
 ```{r echo = FALSE}
 
 #reading in the data
-#you'll want to have the data file 'UCT_estimate_share' in your working directory.
+#you'll want to have the data file 'NSUME_estimate_share' in your working directory.
 
-UCT_data <- read.csv("UCT_estimate_share.csv", header = TRUE)
+NSUM_data <- read.csv("NSUM_estimate_share.csv", header = TRUE)
 
 
 ```
 
 ```{r echo = FALSE}
-#UCT estimate function
-UCTE <- function(d, i){
+#NSUME estimate function
+NSUME <- function(d, i){
   data <- d[i,]
-  
-  control_items <- data %>%
-    filter(survey == 1) %>% 
-    summarise(mean = mean(affirmed_items))
-  
-  sensitive_items <- data %>% 
-    filter(survey == 2) %>% 
-    summarise(mean = mean(affirmed_items))
-  
-  return(sensitive_items$mean - control_items$mean)
+  return(sum(data$y_i) / sum(data$d_i))
 }
 
 ```
@@ -59,12 +50,12 @@ UCTE <- function(d, i){
 #sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
 set.seed(626)
 #create bootstrap with 10,000 replicates
-boot_UCTE <- boot(UCT_data, UCTE, R=10000)
+boot_NSUME <- boot(NSUM_data, NSUME, R=10000)
 #create output of bootstrapped estimate
-boot_UCTE
+boot_NSUME
 #create histogram of bootstrapped estimate
-plot(boot_UCTE)
+plot(boot_NSUME)
 #generate normal, basic, percentile, and BCa bootstrapped 95% CIs
-boot.ci(boot.out = boot_UCTE, type = c("norm", "basic", "perc", "bca"))
+boot.ci(boot.out = boot_NSUME, type = c("norm", "basic", "perc", "bca"))
 
 ```
