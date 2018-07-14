@@ -51,7 +51,7 @@ boot_DE <- boot(direct_estimate_data, DE, R=10000)
 boot_DE
 #create histogram of bootstrapped estimate
 plot(boot_DE)
-#generate normal, basic, percentile, and BCa bootstrapped 95% CIs
-boot.ci(boot.out = boot_DE, type = c("norm", "basic", "perc", "bca"))
+#generate percentile bootstrapped 95% CIs
+boot.ci(boot.out = boot_DE, type = c("perc"))
 
 ```

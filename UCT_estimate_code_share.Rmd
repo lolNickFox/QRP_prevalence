@@ -64,7 +64,7 @@ boot_UCTE <- boot(UCT_data, UCTE, R=10000)
 boot_UCTE
 #create histogram of bootstrapped estimate
 plot(boot_UCTE)
-#generate normal, basic, percentile, and BCa bootstrapped 95% CIs
-boot.ci(boot.out = boot_UCTE, type = c("norm", "basic", "perc", "bca"))
+#generate percentile bootstrapped 95% CIs
+boot.ci(boot.out = boot_UCTE, type = c("perc"))
 
 ```

@@ -55,7 +55,7 @@ boot_NSUME <- boot(NSUM_data, NSUME, R=10000)
 boot_NSUME
 #create histogram of bootstrapped estimate
 plot(boot_NSUME)
-#generate normal, basic, percentile, and BCa bootstrapped 95% CIs
-boot.ci(boot.out = boot_NSUME, type = c("norm", "basic", "perc", "bca"))
+#generate percentile bootstrapped 95% CIs
+boot.ci(boot.out = boot_NSUME, type = c("perc"))
 
 ```
