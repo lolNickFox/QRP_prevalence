@@ -1,11 +1,11 @@
 ---
-title: "Unmatched Count Technique (UCT) Estimate Code - from Fox, Honeycutt, and Jussim 2018"
+title: "NSUM Estimate Code - from Fox, Honeycutt, and Jussim 2018"
 author: "Nick_Fox"
 date: "7/13/2018"
 output: html_document
 ---
 
-The following is code used to generate the direct estimate and bootstrapped 95% confidence intervals of the proportion of American psychologists who have used at least one Questionable Research Practice in the past 12 months -  from Fox, Honeycutt, and Jussim 2018.  Please direct any questions to Nick Fox at nwf7@psych.rutgers.edu.
+The following is code used to generate the Network Scale-Up Method (NSUM) stimate and bootstrapped 95% confidence intervals of the proportion of American psychologists who have used at least one Questionable Research Practice in the past 12 months -  from Fox, Honeycutt, and Jussim 2018.  Please direct any questions to Nick Fox at nwf7@psych.rutgers.edu.
 
 To see the output generated from the data, simply hit the knit button!
 
