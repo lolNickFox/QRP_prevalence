@@ -12,20 +12,22 @@ library(ggplot2)
 ```
 
 This figure shows the average social network size of those who identify as QRP users and the general population of psychologists.
-```{r echo = FALSE}
 
+```{r echo = FALSE}
+options(warn = -1)
 #load in network size data
 networks <- read.csv("network_sizes.csv", header = TRUE)
 
 #figure comparing general and QRP user network size.  Visualizes what delta estimates.
 networks %>% 
-  ggplot(aes(x = network_size, colour = population)) + geom_density(size = 1) + scale_x_continuous(breaks=seq(0,2200,150))
+  ggplot(aes(x = network_size, colour = population)) + geom_density(size = 1) + scale_x_continuous(breaks=seq(0,2200,150)) + theme_classic() + xlab("\nAverage Social Network Size") + ylab("Density\n")
 
 
 
 ```
 
-This figure shows the three estimates we generates: The Unmatched Count Technique (UCT) Estimate, the Direct Estimate, and the Generalized Network Scale-Up (GNSUM) Estimate
+This figure shows the three estimates we generates: The Unmatched Count Technique (UCT) Estimate, the Direct Estimate, and the Generalized Network Scale-Up (GNSUM) Estimate.
+
 ```{r echo = FALSE}
 #reads in the data (that I consolidated from the 4 bootstrapping files)
 estimates <- read.csv("qrp_estimates.csv", header = TRUE)
@@ -35,7 +37,7 @@ estimates$estimate_type <- factor(estimates$estimate_type, levels = c("unmatched
 
 #creates figure
 estimates %>% 
-  ggplot(aes(x = estimate_type, y = mean)) + geom_point(size = 2, aes(color = estimate_type)) + coord_flip() + geom_errorbar(aes(ymin = lower, ymax = upper, width = 0, color = estimate_type)) + xlab("") + ylab("Estimated Prevalence of QRP Use (%)") + ylim(-22,60) + theme_classic() + theme(legend.position = "none") + geom_hline(yintercept=0, linetype = "dotted") + scale_x_discrete(labels = c("UCT Estimate", "Direct Estimate", "GNSUM Estimate")) + scale_color_manual(values=c("grey50", "black", "black"))
+  ggplot(aes(x = estimate_type, y = mean)) + geom_point(size = 2, aes(color = estimate_type)) + coord_flip() + geom_errorbar(aes(ymin = lower, ymax = upper, width = 0, color = estimate_type)) + xlab("") + ylab("\nEstimated Prevalence of QRP Use (%)") + ylim(-22,60) + theme_classic() + theme(legend.position = "none") + geom_hline(yintercept=0, linetype = "dotted") + scale_x_discrete(labels = c("UCT Estimate", "Direct Estimate", "GNSUM Estimate")) + scale_color_manual(values=c("grey50", "black", "black"))
 
 #saves the figure as a png file (remove hashtag to save - it's hashed now for knitting purposes)
 #ggsave("estimate_hold.png")
@@ -43,3 +45,13 @@ estimates %>%
 
 ```
 
+This figure shows the validity of participants estimates of group size, using 24 groups of known size (each point is one group).
+
+```{r echo = FALSE}
+
+validity <- read.csv("validity_data_share.csv", header = TRUE)
+
+validity %>% 
+  ggplot(aes(x = actual, y = estimate)) + geom_point(size = 1) + geom_errorbar(aes(ymin = (estimate - CI), ymax = (estimate + CI))) + theme_classic() + geom_abline() + ylim(0, 3) + xlim(0, 3) + ylab("Estimated Prevalence of Group Size (%)\n") + xlab("\nActual Prevalence of Group Size (%)")
+
+```
