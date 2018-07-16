@@ -1,5 +1,5 @@
 ---
-title: "GNSUM_estimate_code_share"
+title: "GNSUM Estimate Code - from Fox, Honeycutt, and Jussim 2018"
 author: "Nick_Fox"
 date: "7/13/2018"
 output: html_document
@@ -33,7 +33,6 @@ suppressWarnings(suppressPackageStartupMessages(library(boot)))
 
 GNSUM_data <- read.csv("GNSUM_estimate_share.csv", header = TRUE)
 
-str(GNSUM_data)
 
 ```
 
@@ -42,6 +41,7 @@ str(GNSUM_data)
 GNSUME <- function(d, i){
   data <- d[i,]
   
+  #this calculates the NSUM estimate within the bootstrap procedure
   NSUM = sum(data$y_i, na.rm = TRUE) / sum(data$d_i, na.rm = TRUE)
   
   QRP_network <- data %>%
@@ -52,27 +52,33 @@ GNSUME <- function(d, i){
     filter(population == "general") %>% 
     summarise(mean = mean(network_size), na.rm = TRUE)
   
+  #this calculates the delta estimate (comparison of average network size) within the bootstrap procedure
   delta = (QRP_network$mean/general_network$mean)
   
+  #Counts number of "I know about their QRP usage, They know about my QRP usage"
   IK_TK <- data %>% 
     filter(quadrant == "IK_TK") %>% 
     summarise(sum = sum(count), na.rm = TRUE)
   
+  #Counts number of "I don't know about their QRP usage, They know about my QRP usage"
   IDK_TK <- data %>% 
     filter(quadrant == "IDK_TK") %>% 
     summarise(sum = sum(count), na.rm = TRUE)
   
+  #Counts number of "I don't know about their QRP usage, They don't know about my QRP usage"
   IDK_TDK <- data %>%
     filter(quadrant == "IDK_TDK") %>% 
     summarise(sum = sum(count), na.rm = TRUE)
   
+  #Counts number of "I know about their QRP usage, They don't know about my QRP usage"
   IK_TDK <- data %>%
     filter(quadrant == "IK_TDK") %>% 
     summarise(sum = sum(count), na.rm = TRUE)
   
+  #this calculates tau (transmission rate) within the bootstrap procedure
   tau = (IK_TK$sum + IDK_TK$sum) / (IK_TK$sum + IDK_TK$sum + IDK_TDK$sum + IK_TDK$sum)
 
-  
+  #this returns the GNSUM estimate, once per replicate
   return(NSUM * (1/delta) * (1/tau))
 }
 
@@ -82,12 +88,16 @@ GNSUME <- function(d, i){
 ```{r echo = FALSE}
 #sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
 set.seed(626)
+
 #create bootstrap with 10,000 replicates (this might take awhile depending on your comptuer)
 boot_GNSUME <- boot(GNSUM_data, GNSUME, R=10000)
+
 #create output of bootstrapped estimate
 boot_GNSUME
+
 #create histogram of bootstrapped estimate
 plot(boot_GNSUME)
+
 #generate percentile bootstrapped 95% CIs
 boot.ci(boot.out = boot_GNSUME, type = c("perc"))
 
