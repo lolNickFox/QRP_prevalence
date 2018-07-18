@@ -5,7 +5,7 @@ output:
 ---
 
 ```{r echo = FALSE}
-options(warn = -1, digits = 2, cache = TRUE)
+options(warn = -1, digits = 2, cache = TRUE, scipen=999)
 
 #install packages - remove the hashtag if you need to install these packages, otherwise keep them hashed out.
 #install.packages("tidyverse")
@@ -23,6 +23,9 @@ direct_estimate_data <- read.csv("direct_estimate_share.csv", header = TRUE)
 UCT_data <- read.csv("UCT_estimate_share.csv", header = TRUE)
 NSUM_data <- read.csv("NSUM_estimate_share.csv", header = TRUE)
 GNSUM_data <- read.csv("GNSUM_estimate_share.csv", header = TRUE)
+network_sizes <- read.csv("network_sizes.csv", header = TRUE)
+estimates <- read.csv("qrp_estimates.csv", header = TRUE)
+validity <- read.csv("validity_data_share.csv", header = TRUE)
 
 ```
 
@@ -210,6 +213,46 @@ DND_tenure <- responses %>%
 
 ```
 
+```{r echo = FALSE}
+#this is a block of code used to generate the value of delta for the text.
+general <- network_sizes %>%
+  filter(population == "general") %>% 
+  summarise(size = mean(network_size))
+  
+QRP <- network_sizes %>% 
+  filter(population == "QRP") %>% 
+  summarise(size = mean(network_size))
+
+QRP$size / general$size
+```
+
+```{r echo = FALSE}
+#this is a block of code from the function inside the GNSUM bootstrapping block used to generate the value of tau for the text.
+
+#Counts number of "I know about their QRP usage, They know about my QRP usage"
+IK_TK <- GNSUM_data %>% 
+  filter(quadrant == "IK_TK") %>% 
+  summarise(sum = sum(count), na.rm = TRUE)
+  
+#Counts number of "I don't know about their QRP usage, They know about my QRP usage"
+IDK_TK <- GNSUM_data %>% 
+  filter(quadrant == "IDK_TK") %>% 
+  summarise(sum = sum(count), na.rm = TRUE)
+  
+#Counts number of "I don't know about their QRP usage, They don't know about my QRP usage"
+IDK_TDK <- GNSUM_data %>%
+  filter(quadrant == "IDK_TDK") %>% 
+  summarise(sum = sum(count), na.rm = TRUE)
+  
+#Counts number of "I know about their QRP usage, They don't know about my QRP usage"
+IK_TDK <- GNSUM_data %>%
+  filter(quadrant == "IK_TDK") %>% 
+  summarise(sum = sum(count), na.rm = TRUE)
+  
+#this calculates tau (transmission rate) within the bootstrap procedure
+tau = (IK_TK$sum + IDK_TK$sum) / (IK_TK$sum + IDK_TK$sum + IDK_TDK$sum + IK_TDK$sum)
+  
+```
 
 <br><br><br>
 <center><h2> How Many Psychologists Use Questionable Research Practices?
@@ -303,9 +346,8 @@ This study utilized a digital distribution of the game of contacts.  This method
 
 The three estimates of recent QRP use in the frame population of American tenured or tenure-track faculty are summarized in Figure 1, and described in detail below.
 
-```{r echo = FALSE, fig.width=5,fig.height=5}
-#reads in the data (that I consolidated from the 4 bootstrapping files)
-estimates <- read.csv("qrp_estimates.csv", header = TRUE)
+```{r echo = FALSE, fig.width=5, fig.height=5, fig.align="center"}
+#this is the code block for Figure 1.
 
 #turns the data into factors for graphing
 estimates$estimate_type <- factor(estimates$estimate_type, levels = c("unmatched_count", "direct_estimate", "GNSUM"))
@@ -321,15 +363,52 @@ estimates %>%
 
 
 <h3>Direct Estimate</h3>
-To ensure the highest number of participants in our game of contacts, half of the total population were asked to participate in Survey 3, which contained our direct estimate question. Thus, `r responses %>% filter(survey == 3) %>% summarise(emails_sent)` psychologists were solicited, and we received `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` responses to Survey 3 able to be analyzed. Of the `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` participants, `r direct_estimate_data %>% summarise(QRP = sum(QRP_USE))` indicated they had used at least one QRP in the past 12 months.  Using Equation 1, we calculated QRP prevalence to be `r (boot_DE$t0)*100`% (bootstrapped 95% confidence interval [`r boot_DE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%]).  This corresponds to an estimated `r all_people$people*boot_DE$t0` American psychologists currently using QRPs.
+To ensure the highest number of participants in our game of contacts, half of the total population were asked to participate in Survey 3, which contained our direct estimate question. Thus, `r responses %>% filter(survey == 3) %>% summarise(emails_sent)` psychologists were solicited, and we received `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` responses to Survey 3 able to be analyzed. Of the `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` participants, `r direct_estimate_data %>% summarise(QRP = sum(QRP_USE))` indicated they had used at least one QRP in the past 12 months.  Using Equation 1, we calculated QRP prevalence to be `r (boot_DE$t0)*100`% (bootstrapped 95% confidence interval [`r boot_DE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%]).  This corresponds to an estimated `r round(all_people$people*boot_DE$t0, 0)` American psychologists currently using QRPs.
 
 It is possible this estimate is underestimating the true number of psychologists using QRPs.  For one, social desirability may influence QRP users to conceal their identity when asked directly.  In that case, our estimate is only generated by those participants willing to reveal their identity.  Given the somewhat critical social environment for QRP users (Fiske2016), it is reasonable to believe some participants withheld their identity when we asked directly.  The following indirect estimation methods sought to mitigate this social desirability bias.
 
+<h3>Unmatched Count Technique</h3>
+The remaining `r responses %>% filter(survey != 3) %>% summarise(sum(emails_sent))` psychologists contacted were asked to participate in our unmatched count estimate with `r responses %>% filter(survey == 1) %>% summarise(emails_sent)` randomized into the innocuous list condition, and `r responses %>% filter(survey == 2) %>% summarise(emails_sent)` randomized into the sensitive list condition.
 
-```{r}
+The average number of list items corresponding to participants in the innocuous list condition was `r UCT_data %>% filter(survey == 1) %>% summarise(mean = mean(affirmed_items))`.  The average number of list items corresponding to participants in the sensitive list condition was `r UCT_data %>% filter(survey == 2) %>% summarise(mean = mean(affirmed_items))`.  Using Equation 2, we calculated QRP user prevalence to be `r boot_UCTE$t0*100`% [`r boot_UCTE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%].  This corresponds to an estimated `r round(all_people$people*boot_UCTE$t0, 0)` American psychologists currently using QRPs. 
 
-all_people$people*boot_DE$t0
+It was unexpected that an UCT estimate lower than our direct estimate would be calculated.  Typically, due to reducing response bias, UCT estimates tend to be larger than direct estimates when the behavior or identity in question is stigmatized (Gervais2017, Wolter2014, Earleywine 2003).  The fact that the bootstrapped confidence interval crosses zero indicates instibility in the sensitive list being consistantly larger than the control list.  It is likely our relatively low number of participants in our UCT estimate (`r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))`) led this calculation to be overly sensitive to individual responses.  This is not the first time the UCT has provided smaller estimates than a direct estimate (Arentoft 2016), though given the high variability, we do not have confidence that this UCT estimate is a valid estimate of current QRP use.
 
+<h3> Generalized Network Scale-Up Estimate</h3>
+All participants who were randomized into the UCT estimate were also asked to answer questions about their social networks, and to estimate how many researchers they know who have used at least one QRP in the past 12 months.  Participants who were randomized into the direct estimate and who self-identified as a QRP user in that estimate were also asked to answer questions about their social network and to participate in the game of contacts method.  Participants in the direct estimate who did not self-identify as a QRP user were asked questions about their social network as well, but were not asked how many researchers they know who have used at least one QRP in the past 12 months. Therefore, we collected social network responses from `r responses %>% summarise(sum(analyzed_participants)) - direct_estimate_data %>% summarise(sum(QRP_USE))` participants from the general frame population (to be used in estimating $\delta$), `r direct_estimate_data %>% summarise(sum(QRP_USE))` responses from participants who self-identified as QRP users who also completed the game of contacts (to be used in estimating $\tau$), and `r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))` responses from participants who estimated the number of researchers they know who have used at least one QRP in the past 12 months.
+
+These `r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))` identified `r NSUM_data %>%  summarise(sum(y_i))` QRP users, and know a collective `r round(NSUM_data %>%  summarise(sum(d_i)), 0)` researchers.  Given the total frame population is `r all_people$people`, we are fairly confident all members were identified at least once by our participants.  Using the network scale-up in Equation 3, this generates an estimate of `r boot_NSUME$t0*100`% [`r boot_NSUME_ci$percent[4]*100`%, `r boot_NSUME_ci$percent[5]*100`%].  This estimate serves as the base starting point for Equation 4, the Generalized Network Scale-Up Estimator, detailed below.
+
+Equation 4 relaxes the assumptions of equal network size and total information transmission by incorporating $\tau$ and $\delta$.  Using the `r responses %>% summarise(sum(analyzed_participants)) - direct_estimate_data %>% summarise(sum(QRP_USE))` responses from the general population, plus the `r direct_estimate_data %>% summarise(sum(QRP_USE))` responses from the participants who indicated using a QRP in the past 12 months, we estimate $\delta$ as `r QRP$size/general$size`.  Using the game of contacts, we estimate $\tau$ as `r  tau`. Using Equation 4, we estimate QRP user prevalence to be `r boot_GNSUME$t0*100`% [`r boot_GNSUME_ci$percent[4]*100`%, `r boot_GNSUME_ci$percent[5]*100`%].  This corresponds to an estimated `r round(all_people$people*boot_GNSUME$t0, 0)` American psychologists currently using QRPs.
+
+To assess the accuracy of participants in estimating the size of this unknown group (QRP users), we asked questions about `r length(validity$name)` populations of known size (number of researchers named David, named Janet, etc).  The `r length(validity$name)` names were gender balanced and represented common, uncommon, and rare names that exist within the census of the frame population.  The size estimates of these populations of known size can be seen in Figure 2.  These estimates seem reasonable and closely mirror the actual prevalence of these groups. The fact that the same estimator in the same group of participants can generate reasonable estimates for populations of known size is encouraging evidence of the accuracy of our estimate of the number of recent QRP users utilizing the generalized network scale-up estimate.
+
+```{r echo = FALSE, fig.width=5, fig.height=5, fig.align="center"}
+#this is the code block for Figure 2.
+
+#graphs validity scatterplot
+validity %>% 
+  ggplot(aes(x = actual, y = estimate)) + geom_point(size = 1) + geom_errorbar(aes(ymin = (estimate - CI), ymax = (estimate + CI))) + theme_classic() + geom_abline(linetype = "dotted") + ylim(0, 3) + xlim(0, 3) + ylab("Estimated Prevalence of Group (%)\n") + xlab("\nActual Prevalence of Group (%)") + labs(title = "Figure 2: Validation of Network Scale-Up Estimates\nUsing 24 Groups of Known Size ", subtitle = "Social Network Estimate of Group Size versus Actual Group Size\n")
+
+#saves the figure as a png file (remove hashtag to save - it's hashed now for knitting purposes)
+#ggsave("validity_hold.png")
+
+```
+
+<center><h3>DISCUSSION</h3></center>
+To the best of our knowledge, this is the first report of the prevalence of QRPs in a proximal timespan.  As such, it is difficult to draw conclusions about the magnitude of our estimates when compared to previous estimates.  Compared to John (2012) and Agnoli (2017), we estimate lower rates of questionable research practices.  Compared to Fiedler (2016), however, we estimate higher rates of these practices.  Our definition of "questionable research practices" were the same ones used in John (2012) and Agnoli (2017), but was restricted to a timespan of only 15 months, so it is reasonable that our estimates would be lower than those with an unrestricted time of QRP use.  Since we used those same QRP definitions, is also reasonable that our estimates would be higher than those described by Fiedler & Schwarz (2016), who changed the definition of each QRP.  We also measured true “prevalence”, that is, the commonality of a behavior within a designated time frame, which was a point of difference between John (2012) and Fiedler (2016).
+
+This is also the first report to use the network scale-up and generalized network-scale up estimators to investigate the ongoing reproducibility issues in psychology.  Re-framing QRP prevalence away from the individual behavior and towards the user state brings our field-wide problems more into scope with existing literature on stigma and concealable identities.  For example, much work has been done focusing on how increasing stigma inadvertently locks individuals into detrimental behaviors (Stuber2009), and how revealing a concealed identity can increase well-being by reducing the stress of being exposed (Chaudoir2010).  Framing QRP use in terms of the individual may help the field reduce QRP use by increasing awareness of the effects of stigma and support.
+
+<h3>Implications</h3>
+These estimates serve as a baseline to measure the effectiveness of current initiatives, as well as a foundation for new ones.  While much work is being done to grow support for interventions such as pre-registration (CITATION) and Registered Reports (CITATION), it is currently unknown what quantitative effect these are having on curbing behaviors associated with inflated Type I error such as QRPs.  By performing follow-up estimates, the field can use these baseline estimates to measure the effectiveness of these programs and make informed decisions on their effectiveness.
+
+
+
+
+```{r echo = FALSE}
+
+length(validity$name)
 ```
 
 
