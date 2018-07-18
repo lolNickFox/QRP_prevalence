@@ -1,0 +1,4 @@
+survey,emails_sent,emails_bounced,emails_landed,full_responses,partial_responses,total_responses,removed_participants,analyzed_participants,male,female,DND_gender,assistant,associate,full,DND_tenure
+1,1775,65,1710,136,71,207,6,130,61,66,7,26,33,50,26
+2,1775,43,1732,155,87,242,6,149,68,84,2,32,41,46,34
+3,3551,106,3445,322,138,460,14,308,150,149,10,73,67,112,53

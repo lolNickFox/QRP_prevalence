@@ -45,13 +45,16 @@ DE <- function(d, i){
 ```{r echo = FALSE}
 #sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
 set.seed(626)
+
 #create bootstrap with 10,000 replicates
 boot_DE <- boot(direct_estimate_data, DE, R=10000)
-#create output of bootstrapped estimate
-boot_DE
+#names(boot_DE)
+
 #create histogram of bootstrapped estimate
-plot(boot_DE)
-#generate percentile bootstrapped 95% CIs
-boot.ci(boot.out = boot_DE, type = c("perc"))
+#plot(boot_DE)
+
+#generate percentile bootstrapped 95% CIs (and finds names of values within)
+boot_DE_ci <- boot.ci(boot.out = boot_DE, type = c("perc"))
+#names(boot_DE_ci)
 
 ```

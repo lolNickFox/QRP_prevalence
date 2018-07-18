@@ -1,0 +1,336 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r echo = FALSE}
+options(warn = -1, digits = 2, cache = TRUE)
+
+#install packages - remove the hashtag if you need to install these packages, otherwise keep them hashed out.
+#install.packages("tidyverse")
+#install.packages("boot")
+
+#load packages
+suppressWarnings(suppressPackageStartupMessages(library(tidyverse)))
+suppressWarnings(suppressPackageStartupMessages(library(boot)))
+
+```
+
+```{r echo = FALSE}
+#Load in data
+direct_estimate_data <- read.csv("direct_estimate_share.csv", header = TRUE)
+UCT_data <- read.csv("UCT_estimate_share.csv", header = TRUE)
+NSUM_data <- read.csv("NSUM_estimate_share.csv", header = TRUE)
+GNSUM_data <- read.csv("GNSUM_estimate_share.csv", header = TRUE)
+
+```
+
+```{r echo = FALSE}
+#define bootstrapping functions per estimate
+
+#direct estimate function
+DE <- function(d, i){
+  d2 <- d[i,]
+  return((sum(d2$QRP_USE)/length(d2$QRP_USE)))
+}
+
+#UCT estimate function
+UCTE <- function(d, i){
+  data <- d[i,]
+  
+  control_items <- data %>%
+    filter(survey == 1) %>% 
+    summarise(mean = mean(affirmed_items))
+  
+  sensitive_items <- data %>% 
+    filter(survey == 2) %>% 
+    summarise(mean = mean(affirmed_items))
+  
+  return(sensitive_items$mean - control_items$mean)
+}
+
+#NSUM estimate function
+NSUME <- function(d, i){
+  data <- d[i,]
+  return(sum(data$y_i) / sum(data$d_i))
+}
+
+#GNSUM estimate function
+GNSUME <- function(d, i){
+  data <- d[i,]
+  
+  #this calculates the NSUM estimate within the bootstrap procedure
+  NSUM = sum(data$y_i, na.rm = TRUE) / sum(data$d_i, na.rm = TRUE)
+  
+  QRP_network <- data %>%
+    filter(population == "QRP") %>% 
+    summarise(mean = mean(network_size), na.rm = TRUE)
+  
+  general_network <- data %>%
+    filter(population == "general") %>% 
+    summarise(mean = mean(network_size), na.rm = TRUE)
+  
+  #this calculates the delta estimate (comparison of average network size) within the bootstrap procedure
+  delta = (QRP_network$mean/general_network$mean)
+  
+  #Counts number of "I know about their QRP usage, They know about my QRP usage"
+  IK_TK <- data %>% 
+    filter(quadrant == "IK_TK") %>% 
+    summarise(sum = sum(count), na.rm = TRUE)
+  
+  #Counts number of "I don't know about their QRP usage, They know about my QRP usage"
+  IDK_TK <- data %>% 
+    filter(quadrant == "IDK_TK") %>% 
+    summarise(sum = sum(count), na.rm = TRUE)
+  
+  #Counts number of "I don't know about their QRP usage, They don't know about my QRP usage"
+  IDK_TDK <- data %>%
+    filter(quadrant == "IDK_TDK") %>% 
+    summarise(sum = sum(count), na.rm = TRUE)
+  
+  #Counts number of "I know about their QRP usage, They don't know about my QRP usage"
+  IK_TDK <- data %>%
+    filter(quadrant == "IK_TDK") %>% 
+    summarise(sum = sum(count), na.rm = TRUE)
+  
+  #this calculates tau (transmission rate) within the bootstrap procedure
+  tau = (IK_TK$sum + IDK_TK$sum) / (IK_TK$sum + IDK_TK$sum + IDK_TDK$sum + IK_TDK$sum)
+
+  #this returns the GNSUM estimate, once per replicate
+  return(NSUM * (1/delta) * (1/tau))
+}
+
+```
+
+```{r echo = FALSE}
+#Direct ESTIMATE
+#sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
+set.seed(626)
+
+#create bootstrap with 10,000 replicates
+boot_DE <- boot(direct_estimate_data, DE, R=10000)
+
+#create histogram of bootstrapped estimate
+#plot(boot_DE)
+
+#generate percentile bootstrapped 95% CIs (and finds names of values within)
+boot_DE_ci <- boot.ci(boot.out = boot_DE, type = c("perc"))
+#names(boot_DE_ci)
+
+```
+
+```{r echo = FALSE}
+#UCT ESTIMATE
+#sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
+set.seed(626)
+
+#create bootstrap with 10,000 replicates
+boot_UCTE <- boot(UCT_data, UCTE, R=10000)
+
+#create histogram of bootstrapped estimate
+#plot(boot_UCTE)
+
+#generate percentile bootstrapped 95% CIs
+boot_UCTE_ci <- boot.ci(boot.out = boot_UCTE, type = c("perc"))
+
+```
+
+```{r echo = FALSE}
+#sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
+set.seed(626)
+
+#create bootstrap with 10,000 replicates
+boot_NSUME <- boot(NSUM_data, NSUME, R=10000)
+
+#create histogram of bootstrapped estimate
+#plot(boot_NSUME)
+
+#generate percentile bootstrapped 95% CIs
+boot_NSUME_ci <- boot.ci(boot.out = boot_NSUME, type = c("perc"))
+
+```
+
+```{r echo = FALSE}
+#sets a reproducible seed for the bootstrapping (626 is what is used for the publication)
+set.seed(626)
+
+#create bootstrap with 10,000 replicates (this might take awhile depending on your comptuer)
+boot_GNSUME <- boot(GNSUM_data, GNSUME, R=10000)
+
+#create histogram of bootstrapped estimate
+#plot(boot_GNSUME)
+
+#generate percentile bootstrapped 95% CIs
+boot_GNSUME_ci <- boot.ci(boot.out = boot_GNSUME, type = c("perc"))
+
+```
+
+```{r echo = FALSE}
+#survey info - number sent, bounce rate, full and partial responses, gender, and tenure
+#I'm sure there is a better way to grab all of these numbers...but this is how I wound up doing it =)
+
+responses <- read.csv("survey_info.csv", header = TRUE)
+
+all_people <- responses %>% 
+  summarise(people = sum(emails_sent))
+
+bounce_rate <- responses %>% 
+  summarise(bounce = sum(emails_bounced))
+
+full_responses <- responses %>% 
+  summarise(full = sum(full_responses))
+
+partial_responses <- responses %>% 
+  summarise(partial = sum(partial_responses))
+
+removed <- responses %>% 
+  summarise(removed = sum(removed_participants))
+
+female <- responses %>% 
+  summarise(female = sum(female))
+
+male <- responses %>% 
+  summarise(male = sum(male))
+
+DND_gender <- responses %>% 
+  summarise(DND_gender = sum(DND_gender))
+
+assistant <- responses %>%
+  summarise(assistant = sum(assistant))
+
+associate <- responses %>% 
+  summarise(associate = sum(associate))
+
+full <- responses %>% 
+  summarise(full = sum(full))
+
+DND_tenure <- responses %>% 
+  summarise(DND_tenure = sum(DND_tenure))
+
+```
+
+
+<br><br><br>
+<center><h2> How Many Psychologists Use Questionable Research Practices?
+Estimating the Population Side of Current QRP Users </h2>
+<br><br>
+<h4> Nicholas Fox, Nathan Honeycutt, & Lee Jussim </h4> 
+ Rutgers University, Piscataway New Jersey, 08854</center>
+
+<br><br><br><br><br>
+-----
+
+
+<center><h3>Abstract</h3></center>
+
+Here is where the abstract text goes. We are currently collaborating on Google Sheets on the final text.  But when it is finished, the abstract part of it will go in this very spot!  In the abstract, we'll reference our estimates.  We estimate up to `r (boot_GNSUME$t0 * 100)`% of American psychologists have recently used at least one questionable research practice.  The in line r code works! woo! Donec et sodales nunc. Nunc cursus ultricies purus, sit amet varius ante vestibulum eget. Pellentesque ornare feugiat neque. Aliquam auctor diam tempor diam consectetur rhoncus. Morbi malesuada sodales mi, eu pellentesque velit finibus vitae. Vivamus iaculis sapien id ante accumsan auctor. In ultrices rhoncus massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+Integer porttitor dui eget massa vehicula pulvinar. Pellentesque id venenatis elit. Praesent condimentum quis nibh eget pretium. Pellentesque interdum risus velit, pulvinar viverra lorem vulputate vel. Vivamus vel tincidunt lorem. Duis pellentesque lacus velit, fermentum laoreet orci condimentum sit amet. Nulla fermentum, erat non rhoncus tincidunt, turpis tellus efficitur ante, ac convallis orci elit ac risus. Aliquam eget ultrices ex, ut lobortis augue.
+
+<br><br><br>
+-----
+
+<center><h4>How Many Psychologists Use Questionable Research Practices? <br>
+Estimating the Population Side of Current QRP Users</h4></center>
+<br>
+The introduction will start here.  Here is text, text, text.  Let me see if I can find some Lorum Ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices odio vitae nulla bibendum consequat. Duis pulvinar erat at posuere eleifend. Fusce tempor orci sed convallis aliquet. Quisque ut neque vitae nibh fermentum auctor at in purus. Cras aliquet elementum tempor. Fusce ipsum justo, condimentum eu massa sed, congue mollis quam. Sed mollis turpis diam, in porttitor ex fermentum eget. Fusce vestibulum mi in nunc bibendum, id egestas lectus ultrices. Cras nec facilisis massa.
+
+Donec et sodales nunc. Nunc cursus ultricies purus, sit amet varius ante vestibulum eget. Pellentesque ornare feugiat neque. Aliquam auctor diam tempor diam consectetur rhoncus. Morbi malesuada sodales mi, eu pellentesque velit finibus vitae. Vivamus iaculis sapien id ante accumsan auctor. In ultrices rhoncus massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+Integer porttitor dui eget massa vehicula pulvinar. Pellentesque id venenatis elit. Praesent condimentum quis nibh eget pretium. Pellentesque interdum risus velit, pulvinar viverra lorem vulputate vel. Vivamus vel tincidunt lorem. Duis pellentesque lacus velit, fermentum laoreet orci condimentum sit amet. Nulla fermentum, erat non rhoncus tincidunt, turpis tellus efficitur ante, ac convallis orci elit ac risus. Aliquam eget ultrices ex, ut lobortis augue.
+
+Proin pretium lectus mauris, nec egestas tortor fringilla vitae. Fusce id elit nec elit ultricies ornare quis et magna. Fusce posuere hendrerit efficitur. Donec eget consequat ex. Vestibulum scelerisque mi eget leo efficitur, in maximus erat mollis. In hac habitasse platea dictumst. Etiam congue sapien eu pharetra iaculis. Curabitur ornare tortor libero, at volutpat velit volutpat egestas.
+
+Etiam et ante orci. Nunc consequat aliquet interdum. Aliquam ante ipsum, pretium eu leo a, dignissim mollis lectus. Mauris imperdiet mi erat. Vivamus varius convallis magna vel fringilla. Vestibulum suscipit faucibus nulla vel imperdiet. Nunc et arcu finibus, porttitor dui nec, venenatis est. Proin ultricies efficitur felis, vitae porttitor arcu ultrices faucibus.
+
+<center><h3>METHOD</h3></center>
+The work detailed in this manuscript was preregistered on May 15th, 2017.  The preregistration can be found at DOI 10.17605/OSF.IO/XU25N and www.osf.io/xu25n.
+
+<center><h3>Sample</h3></center>
+
+The frame population was tenured or tenure-track psychologists associated with a PhD-granting institution in the United States.  The population contained `r all_people$people` individuals as of June 2017.  All `r all_people$people` members of this population were contacted via email and asked to participate.  Of the `r all_people$people` email invitations sent, `r bounce_rate$bounce` emails bounced (`r (bounce_rate$bounce/all_people$people)*100`%).  We collected `r full_responses$full` full responses (`r (full_responses$full/all_people$people)*100`% full response rate), and `r partial_responses$partial` partial responses.  Only full responses are used in the following estimations.  Additionally, `r removed$removed` participant responses were removed for either being marked complete erroneously or due to breaking estimate-specific criteria.  There was no compensation offered for participantion, and participants had 7 days to complete the survey after starting. `r female$female` (`r (female$female/full_responses$full)*100`%) participants identified as female, and `r male$male` (`r (male$male/full_responses$full)*100`%) identified as male, and `r DND_gender$DND_gender` (`r (DND_gender$DND_gender/full_responses$full)*100`%) choosing not to identify their gender.  `r assistant$assistant` (`r (assistant$assistant/full_responses$full)*100`%) participants identified as an Assistant Professor, `r associate$associate` (`r (associate$associate/full_responses$full)*100`%) as Associate Professor, and `r full$full` (`r (full$full/full_responses$full)*100`%) as Full Professor.  `r DND_tenure$DND_tenure` participants identified as tenure or tenure-track, but did not disclose their tenure level.
+
+<center><h3>Procedures</h3></center>
+<h3>Data Sources</h3>
+Data was collected using three surveys (as opposed to the two proposed in the preregistration), designed and distributed using Qualtrics survey software (CITATION).  Each survey asked questions designed to estimate the total social network size of the participant, as well as demographic questions.  Surveys 1 and 2 each contained questions appropriate for the UCT.  Survey 3 contained our direct estimate measure and questions used to determine transmission of QRP-identity information within an individual's social network.
+
+All surveys included the definition of "Questionable Research Practices (QRPs)".  This definition included the list of behaviors previously defined in the literature as QRPs (see Table), but omitting "fabricating data" for reasons addressed earlier.  The definition of QRP was made available on each relevant question with a mouse rollover that was first demonstrated with the initial definition.
+
+Additionally, QRP use is temporally isolated to "in the past 12 months".  Although some have found instances of underreporting when using a 12 month recall (CITATIONS), this time frame is used frequently to measure current behavior in major national data collection surveys such as the National Health Interview Survey (NHIS) (CITATION) and the National Survey on Drug Use and Health (CITATION).
+
+As data was collected between September 2017 and December 2017, questions framed using "in the past 12 months" constrains actual QRP use between September 2016 and December 2017, a time frame of 15 months.  Therefore, estimates of current QRP use are based on the number of psychologists who have used at least one QRP in this time frame.
+
+<center><h3>Measures</h3></center>
+<h3>Direct Estimate</h3>
+For comparison to the generalized network scale-up (GNSUM) and unmatched count technique (UCT) estimates, we estimated the number of QRP users by direct estimation.  This involveds asking members of the target population whether they have used at least one QRP in the past 12 months, and is calculated as follows:
+\begin{equation}
+\rho = \frac{c}{n}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $c$ is the number of participants indicating they have used a QRP in the past 12 months, and $n$ is the total number of participant responses.
+
+<h3>Unmatched Count Technique</h3>
+The unmatched count technique is an indirect way of measuring the base rates of concealable and potentially stigmatized identities (Wolter2014,Gervais2017). In this estimate, two groups of participants are given a list of innocuous items that could apply to them (e.g., I own a dishwasher; I exercise regularly). The list of items for both groups is the same except for one additional item that one group receives and the other does not.  This extra item asks about the concealable identity (e.g., I own a dishwasher; I exercise regularly; I smoke crack cocaine [examples from (Gervais2017)]). See Table~\ref{tab:unmatched} for the full list of items used.  Participants are asked to count and report the number of items in the list that apply to them.  At no point does a participant identify themselves with any particular list item, only the total number of applicable items.
+The proportion of participants that identify with the stigmatized identity is calculated as:
+\begin{equation}
+\rho = \frac{\sum x_y^s}{n^s} - \frac{\sum x_y^i}{n^i}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $x_y^s$ is the number of reported items for participant $y$ in the stigma list group $s$, $n^s$ is the total number of participant responses in group $s$, $x_y^i$ is the number of reported items for participant $y$ in the innocuous list group $i$, and $n^i$ is the total number of participants in group $i$.
+<h3>Network Scale-Up and Generalized Network Scale-Up Methods</h3>
+Network scale-up methods estimate population sizes using information about the personal networks (i.e., ego networks) of respondents, based on the assumption that personal networks are, on average, representative of the population (Salganik2011).  Participants were asked about how many people they "know" in the frame population.  In this study, "know" was defined as: they know you by face or by name, you know them by face or by name, you could contact the person if you wanted to, and you've been in contact in the past two years (Bernard2010).  Participants were then asked a series of questions to estimate the total size of their social network, and the number of people they know who have used at least one QRP in the past 12 months.  Together, the network scale-up can be used to estimate the proportion of QRP users, and was calculated as follows:
+\begin{equation}
+\rho = \frac{\sum y_i}{\sum d_i}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $y_i$ is the number of people known in the target group $y$ by participant $i$, and $d_i$ is the estimated total number of people known $d$ by participant $i$ within the frame population.
+
+Equation 3 makes two assumptions: that members of the general frame population know all identity information about all members of their ego networks, and that QRP users have the same size social networks as the general frame population.  Since QRP use is concealable and potentially stigmatizing, these assumptions may not hold.  For that reason, data was collected from self-identifying QRP users to estimate how QRP-use identity information transmits through ego networks (tau, $\tau$, also called the transmission rate).  This data was collected using the game of contacts method (Salganik2012). A popularity ratio (delta, $\delta$) was calculated by dividing the average network size of QRP users by the average network size of the general frame population.
+
+Together, $\tau$ and $\delta$ adjust the network scale-up estimate in equation 3 into the generalized network scale-up as follows:
+\begin{equation}
+\rho = \frac{\sum y_i}{\sum d_i} * \frac{1}{\tau} * \frac{1}{\delta}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $\frac{\sum y_i}{\sum d_i}$ is the network scale-up estimate (equation 3), $\tau$ is the transmission rate, and $\delta$ is the popularity ratio.  All network scale-up results are calculated using Equation 4, incorporating $\tau$ and $\delta$.
+
+<h3>Game of Contacts</h3>
+To estimate the QRP identity transmission rate, $\tau$, we performed the game of contacts with participants who self-identified as using at least one QRP in the past 12 months.  For a full description of the game of contacts, see Salganik et al (2012)). Briefly, this method has participants (called egos in network terminology) answer a set of questions about what they know about the QRP use of several others (called alters) in their social network, and what those alters know about the participant's QRP use.  The questions are semi-graphical and responses are recorded on a digital 2x2 grid, representing the four possible ways information can flow through a given ego-alter relationship. The transmission rate is then calculated as:
+\begin{equation}
+\tau = \frac{\sum{w_i}}{\sum{x_i}}
+\end{equation}
+where $w_i$ is the number of alters that know the ego is a member of the target population, and $x_i$ is the total number of alters generated by the ego.  This produced a value between 0 and 1.
+
+This study utilized a digital distribution of the game of contacts.  This method is typically performed in a face-to-face interview setting with the participant (Salganik2012b).  Due to the distributed nature of our frame population, this was not feasible.  Instead, participants were presented with the game of contacts via Qualtrics.  These questions were pretested with several academics not within the frame population.  A comparison between an in-person and digital game of contacts has been pre-registered by the authors (GET PREREG LINK) for future study.
+
+<center><h3>Results</h3></center>
+
+The three estimates of recent QRP use in the frame population of American tenured or tenure-track faculty are summarized in Figure 1, and described in detail below.
+
+```{r echo = FALSE, fig.width=5,fig.height=5}
+#reads in the data (that I consolidated from the 4 bootstrapping files)
+estimates <- read.csv("qrp_estimates.csv", header = TRUE)
+
+#turns the data into factors for graphing
+estimates$estimate_type <- factor(estimates$estimate_type, levels = c("unmatched_count", "direct_estimate", "GNSUM"))
+
+#creates figure
+estimates %>% 
+  ggplot(aes(x = estimate_type, y = mean)) + geom_point(size = 2, aes(color = estimate_type)) + coord_flip() + geom_errorbar(aes(ymin = lower, ymax = upper, width = 0, color = estimate_type)) + xlab("") + ylab("\nEstimated Prevalence of QRP Use (%)") + ylim(-22,60) + theme_classic() + theme(legend.position = "none") + geom_hline(yintercept=0, linetype = "dotted") + scale_x_discrete(labels = c("UCT Estimate", "Direct Estimate", "GNSUM Estimate")) + scale_color_manual(values=c("grey50", "black", "black")) + labs(title = "Figure 1: Estimates of the Number of\nPsychologists who have Used a QRP\nin the Past 12 Months\n")
+
+#saves the figure as a png file (remove hashtag to save - it's hashed now for knitting purposes)
+#ggsave("estimate_hold.png")
+
+```
+
+
+<h3>Direct Estimate</h3>
+To ensure the highest number of participants in our game of contacts, half of the total population were asked to participate in Survey 3, which contained our direct estimate question. Thus, `r responses %>% filter(survey == 3) %>% summarise(emails_sent)` psychologists were solicited, and we received `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` responses to Survey 3 able to be analyzed. Of the `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` participants, `r direct_estimate_data %>% summarise(QRP = sum(QRP_USE))` indicated they had used at least one QRP in the past 12 months.  Using Equation 1, we calculated QRP prevalence to be `r (boot_DE$t0)*100`% (bootstrapped 95% confidence interval [`r boot_DE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%]).  This corresponds to an estimated `r all_people$people*boot_DE$t0` American psychologists currently using QRPs.
+
+It is possible this estimate is underestimating the true number of psychologists using QRPs.  For one, social desirability may influence QRP users to conceal their identity when asked directly.  In that case, our estimate is only generated by those participants willing to reveal their identity.  Given the somewhat critical social environment for QRP users (Fiske2016), it is reasonable to believe some participants withheld their identity when we asked directly.  The following indirect estimation methods sought to mitigate this social desirability bias.
+
+
+```{r}
+
+all_people$people*boot_DE$t0
+
+```
+
+
+

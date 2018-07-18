@@ -37,7 +37,7 @@ GNSUM_data <- read.csv("GNSUM_estimate_share.csv", header = TRUE)
 ```
 
 ```{r echo = FALSE}
-#NSUME estimate function
+#GNSUME estimate function
 GNSUME <- function(d, i){
   data <- d[i,]
   
