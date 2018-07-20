@@ -1,15 +1,51 @@
 ---
-title: How Many Psychologists Use Questionable Research Practices? <br> The HTML Version!
-author: Nicholas Fox, Nathan Honeycutt, & Lee Jussim
-date: July 18, 2018
-bibliography: ["library.bib"]
-output:
-  prettydoc::html_pretty:
-    theme: cayman
-    highlight: github
+title             : "How Many Psychologists Use Questionable Research Practices? Estimating the Population Size of Current QRP Users"
+shorttitle        : "QRP Prevelance"
+
+author: 
+  - name          : "Nicholas Fox"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "53 Avenue E, Room 429, Piscataway New Jersey 08854"
+    email         : "nwf7@psych.rutgers.edu"
+    
+  - name          : "Nathan Honeycutt"
+    affiliation   : "1"
+    
+  - name          : "Lee Jussim"
+    affiliation   : "1"
+    
+affiliation:
+  - id            : "1"
+    institution   : "Rutgers University, New Brunswick New Jersey, USA"
+
+author_note: |
+
+
+
+abstract: |
+  Here is where the abstract text goes. We are currently collaborating  on Google Sheets on the final text.  But when it is finished, the     abstract part of it will go in this very spot!  In the abstract, we'll  reference our estimates.  We estimate up to 24.4% of American psychologists have recently used at least one questionable research practice. The in line r code works! woo! Donec et sodales nunc. Nunc cursus ultricies purus, sit amet varius ante vestibulum eget. Pellentesque ornare feugiat neque. Aliquam auctor diam tempor diam consectetur rhoncus. Morbi malesuada sodales mi, eu pellentesque velit finibus vitae. Vivamus iaculis sapien id ante accumsan auctor. In ultrices rhoncus massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+  Integer porttitor dui eget massa vehicula pulvinar. Pellentesque id   venenatis elit. Praesent condimentum quis nibh eget pretium.            Pellentesque interdum risus velit, pulvinar viverra lorem vulputate     vel. Vivamus vel tincidunt lorem. Duis pellentesque lacus velit,        fermentum laoreet orci condimentum sit amet. Nulla fermentum, erat non  rhoncus tincidunt, turpis tellus efficitur ante, ac convallis orci      elit ac risus. Aliquam eget ultrices ex, ut lobortis augue.
+  
+keywords          : "Questionable Research Practices, QRPs, Social Networks"
+wordcount         : "2750"
+
+bibliography      : ["library.bib"]
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : no
+mask              : no
+fig_caption       : yes
+
+class             : "man"
+output            : papaja::apa6_pdf
+
 ---
 
-```{r echo = FALSE}
+```{r load_packages, include = FALSE}
 options(warn = -1, digits = 2, cache = TRUE, scipen=999)
 
 #install packages - remove the hashtag if you need to install these packages, otherwise keep them hashed out.
@@ -222,6 +258,10 @@ full <- responses %>%
 DND_tenure <- responses %>% 
   summarise(DND_tenure = sum(DND_tenure))
 
+survey3_sent <- responses %>% 
+  filter(survey == 3) %>% 
+  summarise(emails_sent)
+
 ```
 
 ```{r echo = FALSE}
@@ -264,145 +304,27 @@ IK_TDK <- GNSUM_data %>%
 tau = (IK_TK$sum + IDK_TK$sum) / (IK_TK$sum + IDK_TK$sum + IDK_TDK$sum + IK_TDK$sum)
   
 ```
-<br><br>
-<h2><center>How Many Psychologists Use Questionable Research Practices? <br>
-Estimating the Population Size of Current QRP Users</h2></center>
 
-<h4><center>Nicholas Fox, Nathan Honeycutt, & Lee Jussim</h4></center>
-<center>Department of Psychology, Rutgers University, Piscataway New Jersey, 08854</center>
-
-
------
-<center><h3>Abstract</h3></center>
-Psychology has been in crisis.  Over the past 15 years many high-impact research findings have failed to replicate, calling into question their validity. Increased methodological and statistical scrutiny has led to field-wide introspection on how best to produce robust, reproducible, research. One focus has been on the use of questionable research practices.  Previous estimates of the number of researchers who use questionable research practices vary widely, from over 60% to near 10%.  In the current work, the authors produced three estimates of the number of American psychologists who have used questionable research practices in the last 12 months, utilizing direct, indirect, and social network measures of estimation.  We estimate up to `r boot_GNSUME$t0*100`% of American psychologists have recently used at least one questionable research practice.  These estimates represent the first step in generating actionable interventions to resolve the current replication crisis and increase trust in published research.
-
-
-<center><h3>How Many Psychologists Use Questionable Research Practices? <br>
-Estimating the Population Side of Current QRP Users</h3></center>
-<br>
-It is the researcher's job to generate theories, test hypotheses, collect and interpret data, interpret results, and to publish findings. This is all done to learn more about the world and how it works. In the course of doing science, the researcher has many decisions to make: How many subjects will I use? How will I operationalize my variables? What is the population of interest that I am studying? Should certain collected observations be excluded?
-
-Each decision point is a "researcher degree of freedom" [@Simmons2011], with the potential of introducing error and bias. Since there is a high level of ambiguity in research, these degrees of freedom can be resolved in different ways.  In reviewing how researchers deal with outlying observations, @Simmons2011 found different research groups made independent decisions on the best course of action.  When researchers cleaned data and removed participants that responded "too fast", some defined this as 2 standard deviations below the mean response speed, some defined it as observations below 200ms, and others removed the fastest 2.5% of respondents.  None of these definitions are inherently an incorrect interpretation of "too fast", which is the problem: without clear standards in place, this type of flexible decision making can change the overall interpretation of a study's results.
-
-There are many "degrees of freedom" that exploit the gray areas of acceptable practice [@John2012; @Wicherts2016], and that may bias research findings.  A choice ten have been collectively called "questionable research practices" (QRPs) and are typically defined as behaviors during data collection, analysis, and reporting that have the potential to increase false-positive findings in the literature.   While there are many examples of other behaviors that could be considered questionable, these 10 stand out as being familiar to most researchers and have been investigated previously [@John2012; @Fiedler2016; @Agnoli2017].  For this study, nine of the ten QRPs were considered (Table~/ref{tab:QRPs}). We did not include “fabricated data” (QRP-10) as a questionable research practice as the authors do not consider this questionable, but fraudulent.
-
-Part of the difficulty with questionable research practices is that they're questionable: using them is not always a bad thing to do.  In some cases, using these behaviors in science is the correct thing to do.  For example, hypothesizing after the results are known, or HARKing (Item 8 in Table~\ref{tab:QRPs}), is the practice of analyzing data and then changing the original hypothesis to fit with the observed findings.  Generally, this goes against the scientific method of making a prediction, collecting data, and deciding whether that data supports the a priori prediction.  However, in multi-study research papers, it makes sense to use the results from earlier studies to inform the hypothesis of later studies.  If hypotheses are changed before the next set of data is collected, then this is not questionable.  This is thoughtfully using observations to inform future work, the kind of research held in high regard [@Tukey1970].
-
-Although there are some instances when QRP use may be justified, most of times they are used, they are contributing to the false-positive rate seen in the published literature [@Fanelli2009a; @Banks2016].  Not only can QRP use increase the number of false-positive findings (e.g., taking a “non-significant” result and pushing it over a threshold into being "significant"), but using multiple QRPs can also influence the reported effect size of a given finding due to sampling bias and low power [@Button2013].  This can lead to interpretations that are not warranted by the data.
-
-<h3>Prevalence of questionable research practices</h3>
-Consider one of the most basic questions to ask about the replication crisis: How many people are contributing to it?  @John2012 found 63% of psychologists admitted to publishing work without all the dependent measure included (at some point in their academic career).  As articulated by @Simmons2011, this is highly problematic because increasing the number of dependent variables is correlated with an increase in the probability of finding a significant result.  Without reporting all dependent measures, readers are left with a false impression of the rarity or truthfulness of the reported findings.  But, this estimate from  @John2012 was contested by @Fiedler2016. In their conceptual replication that used  differently worded questions, a different conceptualization of “prevalence”, and tested a German (as opposed to an American) cohort of psychologists,  @Fiedler2016 found less than 10% prevalence of the same questionable practice (omitting dependent variables).Further complicating these estimates, @Agnoli2017 recently replicated the original @John2012 study in an Italian cohort of psychologists, and found similarly high levels of QRP use (47.9% of respondents had omitted dependent variables).  There is currently no consensus on the prevalence of QRPs in psychology, nor any indication of how these may be related to the current replication crisis in the field.
-
-Given the inconsistencies in assessing the prevalence of QRPs, the current work sought to expand on the existing literature in two ways.  First, we investigated current QRP use, operationalized as using at least one of nine QRPs "in the past 12 months".  This puts QRP use into the frame of the current replication crisis.  Second, we generated an estimate of QRP use utilizing the social networks of psychologists.  This indirect method, called the generalized network scale up estimator (GNSUM) [@Salganik2011;@Zhang2010;@Zheng2006;@Jing2014], used network information from the general population of psychologists to make size estimates about specific populations existing within.   By tapping into the ego networks of participants [@Lu2009], the GNSUM can collect large amounts of data about population members per participant.  Additionally, this method did not require participants to identify with a potentially stigmatized group, potentially reducing response bias compared to more traditional direct estimates.
-
-While network scale up estimators were expected to provide insights into QRP use prevalence, they have yet to be used in psychology.  The authors assessed the viability of the generalized network scale up estimate in this context, while also estimating QRP use prevalence using more traditional methods - namely, a direct estimate, and the unmatched count technique (UCT).  Thus, this work produced three estimates of QRP use prevalence.
-
-<center><h3>METHOD</h3></center>
-The work detailed in this manuscript was preregistered on May 15th, 2017.  The preregistration can be found at DOI 10.17605/OSF.IO/XU25N and www.osf.io/xu25n.
-
-<center><h3>Sample</h3></center>
-
-The frame population was tenured or tenure-track psychologists associated with a PhD-granting institution in the United States.  The population contained `r all_people$people` individuals as of June 2017.  All `r all_people$people` members of this population were contacted via email and asked to participate.  Of the `r all_people$people` email invitations sent, `r bounce_rate$bounce` emails bounced (`r (bounce_rate$bounce/all_people$people)*100`%).  We collected `r full_responses$full` full responses (`r (full_responses$full/all_people$people)*100`% full response rate), and `r partial_responses$partial` partial responses.  Only full responses are used in the following estimations.  Additionally, `r removed$removed` participant responses were removed for either being marked complete erroneously or due to breaking estimate-specific criteria.  There was no compensation offered for participantion, and participants had 7 days to complete the survey after starting. `r female$female` (`r (female$female/full_responses$full)*100`%) participants identified as female, and `r male$male` (`r (male$male/full_responses$full)*100`%) identified as male, and `r DND_gender$DND_gender` (`r (DND_gender$DND_gender/full_responses$full)*100`%) choosing not to identify their gender.  `r assistant$assistant` (`r (assistant$assistant/full_responses$full)*100`%) participants identified as an Assistant Professor, `r associate$associate` (`r (associate$associate/full_responses$full)*100`%) as Associate Professor, and `r full$full` (`r (full$full/full_responses$full)*100`%) as Full Professor.  `r DND_tenure$DND_tenure` participants identified as tenure or tenure-track, but did not disclose their tenure level.
-
-<center><h3>Procedures</h3></center>
-<h3>Data Sources</h3>
-Data was collected using three surveys (as opposed to the two proposed in the preregistration), designed and distributed using Qualtrics survey software (CITATION).  Each survey asked questions designed to estimate the total social network size of the participant, as well as demographic questions.  Surveys 1 and 2 each contained questions appropriate for the UCT.  Survey 3 contained our direct estimate measure and questions used to determine transmission of QRP-identity information within an individual's social network.
-
-All surveys included the definition of "Questionable Research Practices (QRPs)".  This definition included the list of behaviors previously defined in the literature as QRPs (see Table), but omitting "fabricating data" for reasons addressed earlier.  The definition of QRP was made available on each relevant question with a mouse rollover that was first demonstrated with the initial definition.
-
-Additionally, QRP use is temporally isolated to "in the past 12 months".  Although some have found instances of underreporting when using a 12 month recall (CITATIONS), this time frame is used frequently to measure current behavior in major national data collection surveys such as the National Health Interview Survey (NHIS) (CITATION) and the National Survey on Drug Use and Health (CITATION).
-
-As data was collected between September 2017 and December 2017, questions framed using "in the past 12 months" constrains actual QRP use between September 2016 and December 2017, a time frame of 15 months.  Therefore, estimates of current QRP use are based on the number of psychologists who have used at least one QRP in this time frame.
-
-<center><h3>Measures</h3></center>
-<h3>Direct Estimate</h3>
-For comparison to the generalized network scale-up (GNSUM) and unmatched count technique (UCT) estimates, we estimated the number of QRP users by direct estimation.  This involveds asking members of the target population whether they have used at least one QRP in the past 12 months, and is calculated as follows:
-\begin{equation}
-\rho = \frac{c}{n}
-\end{equation}
-where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $c$ is the number of participants indicating they have used a QRP in the past 12 months, and $n$ is the total number of participant responses.
-
-<h3>Unmatched Count Technique</h3>
-The unmatched count technique is an indirect way of measuring the base rates of concealable and potentially stigmatized identities (Wolter2014,Gervais2017). In this estimate, two groups of participants are given a list of innocuous items that could apply to them (e.g., I own a dishwasher; I exercise regularly). The list of items for both groups is the same except for one additional item that one group receives and the other does not.  This extra item asks about the concealable identity (e.g., I own a dishwasher; I exercise regularly; I smoke crack cocaine [examples from (Gervais2017)]). See Table~\ref{tab:unmatched} for the full list of items used.  Participants are asked to count and report the number of items in the list that apply to them.  At no point does a participant identify themselves with any particular list item, only the total number of applicable items.
-The proportion of participants that identify with the stigmatized identity is calculated as:
-\begin{equation}
-\rho = \frac{\sum x_y^s}{n^s} - \frac{\sum x_y^i}{n^i}
-\end{equation}
-where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $x_y^s$ is the number of reported items for participant $y$ in the stigma list group $s$, $n^s$ is the total number of participant responses in group $s$, $x_y^i$ is the number of reported items for participant $y$ in the innocuous list group $i$, and $n^i$ is the total number of participants in group $i$.
-
-<h3>Network Scale-Up and Generalized Network Scale-Up Methods</h3>
-Network scale-up methods estimate population sizes using information about the personal networks (i.e., ego networks) of respondents, based on the assumption that personal networks are, on average, representative of the population (Salganik2011).  Participants were asked about how many people they "know" in the frame population.  In this study, "know" was defined as: they know you by face or by name, you know them by face or by name, you could contact the person if you wanted to, and you've been in contact in the past two years (Bernard2010).  Participants were then asked a series of questions to estimate the total size of their social network, and the number of people they know who have used at least one QRP in the past 12 months.  Together, the network scale-up can be used to estimate the proportion of QRP users, and was calculated as follows:
-\begin{equation}
-\rho = \frac{\sum y_i}{\sum d_i}
-\end{equation}
-where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $y_i$ is the number of people known in the target group $y$ by participant $i$, and $d_i$ is the estimated total number of people known $d$ by participant $i$ within the frame population.
-
-Equation 3 makes two assumptions: that members of the general frame population know all identity information about all members of their ego networks, and that QRP users have the same size social networks as the general frame population.  Since QRP use is concealable and potentially stigmatizing, these assumptions may not hold.  For that reason, data was collected from self-identifying QRP users to estimate how QRP-use identity information transmits through ego networks (tau, $\tau$, also called the transmission rate).  This data was collected using the game of contacts method (Salganik2012). A popularity ratio (delta, $\delta$) was calculated by dividing the average network size of QRP users by the average network size of the general frame population.
-
-Together, $\tau$ and $\delta$ adjust the network scale-up estimate in equation 3 into the generalized network scale-up as follows:
-\begin{equation}
-\rho = \frac{\sum y_i}{\sum d_i} * \frac{1}{\tau} * \frac{1}{\delta}
-\end{equation}
-where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $\frac{\sum y_i}{\sum d_i}$ is the network scale-up estimate (equation 3), $\tau$ is the transmission rate, and $\delta$ is the popularity ratio.  All network scale-up results are calculated using Equation 4, incorporating $\tau$ and $\delta$.
-
-<h3>Game of Contacts</h3>
-To estimate the QRP identity transmission rate, $\tau$, we performed the game of contacts with participants who self-identified as using at least one QRP in the past 12 months.  For a full description of the game of contacts, see Salganik et al (2012)). Briefly, this method has participants (called egos in network terminology) answer a set of questions about what they know about the QRP use of several others (called alters) in their social network, and what those alters know about the participant's QRP use.  The questions are semi-graphical and responses are recorded on a digital 2x2 grid, representing the four possible ways information can flow through a given ego-alter relationship. The transmission rate is then calculated as:
-\begin{equation}
-\tau = \frac{\sum{w_i}}{\sum{x_i}}
-\end{equation}
-where $w_i$ is the number of alters that know the ego is a member of the target population, and $x_i$ is the total number of alters generated by the ego.  This produced a value between 0 and 1.
-
-This study utilized a digital distribution of the game of contacts.  This method is typically performed in a face-to-face interview setting with the participant (Salganik2012b).  Due to the distributed nature of our frame population, this was not feasible.  Instead, participants were presented with the game of contacts via Qualtrics.  These questions were pretested with several academics not within the frame population.  A comparison between an in-person and digital game of contacts has been pre-registered by the authors (GET PREREG LINK) for future study.
-
-<center><h3>Results</h3></center>
-
-The three estimates of recent QRP use in the frame population of American tenured or tenure-track faculty are summarized in Figure 1, and described in detail below.
-<br><br>
-
-
-```{r echo = FALSE, fig.width=5, fig.height=3, fig.align="center", fig.cap="\\label{fig:fig1}Figure 1. Estimates of the current prevalence of users of questionable research practices using three different estimators; the Generalized Network Scale-Up Method (GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).  Point estimates with 95% bootstrapped confidence intervals."}
+```{r echo = FALSE, fig.width=3, fig.height=3, fig.align="center"}
 #this is the code block for Figure 1.
 
 #turns the data into factors for graphing
 estimates$estimate_type <- factor(estimates$estimate_type, levels = c("unmatched_count", "direct_estimate", "GNSUM"))
 
 #creates figure
-estimates %>% 
-  ggplot(aes(x = estimate_type, y = mean)) + geom_point(size = 2, aes(color = estimate_type)) + coord_flip() + geom_errorbar(aes(ymin = lower, ymax = upper, width = 0, color = estimate_type)) + xlab("") + ylab("\nEstimated Prevalence of QRP Users (%)") + theme_classic() + theme(legend.position = "none") + geom_hline(yintercept=0, linetype = "dotted") + scale_x_discrete(labels = c("UCT Estimate", "Direct Estimate", "GNSUM Estimate")) + scale_color_manual(values=c("black", "black", "black")) + scale_y_continuous(breaks = c(-20, -10, 0, 10, 20, 30, 40, 50, 60))
+figure1 <- estimates %>% 
+  ggplot(aes(x = estimate_type, y = mean)) + geom_point(size = 2, aes(color = estimate_type)) + coord_flip() + geom_errorbar(aes(ymin = lower, ymax = upper, width = 0, color = estimate_type)) + xlab("") + ylab("\nEstimated Prevalence of QRP Use (%)") + ylim(-22,60) + theme_classic() + theme(legend.position = "none") + geom_hline(yintercept=0, linetype = "dotted") + scale_x_discrete(labels = c("UCT Estimate", "Direct Estimate", "GNSUM Estimate")) + scale_color_manual(values=c("black", "black", "black"))
 
 #saves the figure as a png file (remove hashtag to save - it's hashed now for knitting purposes)
 #ggsave("estimate_hold.png")
 
 ```
 
-
-<h3>Direct Estimate</h3>
-To ensure the highest number of participants in our game of contacts, half of the total population were asked to participate in Survey 3, which contained our direct estimate question. Thus, `r responses %>% filter(survey == 3) %>% summarise(emails_sent)` psychologists were solicited, and we received `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` responses to Survey 3 able to be analyzed. Of the `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` participants, `r direct_estimate_data %>% summarise(QRP = sum(QRP_USE))` indicated they had used at least one QRP in the past 12 months.  Using Equation 1, we calculated QRP prevalence to be `r (boot_DE$t0)*100`% (bootstrapped 95% confidence interval [`r boot_DE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%]).  This corresponds to an estimated `r round(all_people$people*boot_DE$t0, 0)` American psychologists currently using QRPs.
-
-It is possible this estimate is underestimating the true number of psychologists using QRPs.  For one, social desirability may influence QRP users to conceal their identity when asked directly.  In that case, our estimate is only generated by those participants willing to reveal their identity.  Given the somewhat critical social environment for QRP users [@Fiske2016], it is reasonable to believe some participants withheld their identity when we asked directly.  The following indirect estimation methods sought to mitigate this social desirability bias.
-
-<h3>Unmatched Count Technique</h3>
-The remaining `r responses %>% filter(survey != 3) %>% summarise(sum(emails_sent))` psychologists contacted were asked to participate in our unmatched count estimate with `r responses %>% filter(survey == 1) %>% summarise(emails_sent)` randomized into the innocuous list condition, and `r responses %>% filter(survey == 2) %>% summarise(emails_sent)` randomized into the sensitive list condition.
-
-The average number of list items corresponding to participants in the innocuous list condition was `r UCT_data %>% filter(survey == 1) %>% summarise(mean = mean(affirmed_items))`.  The average number of list items corresponding to participants in the sensitive list condition was `r UCT_data %>% filter(survey == 2) %>% summarise(mean = mean(affirmed_items))`.  Using Equation 2, we calculated QRP user prevalence to be `r boot_UCTE$t0*100`% [`r boot_UCTE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%].  This corresponds to an estimated `r round(all_people$people*boot_UCTE$t0, 0)` American psychologists currently using QRPs. 
-
-It was unexpected that an UCT estimate lower than our direct estimate would be calculated.  Typically, due to reducing response bias, UCT estimates tend to be larger than direct estimates when the behavior or identity in question is stigmatized [@Gervais2017; @Wolter2014;@Earleywine2003].  The fact that the bootstrapped confidence interval crosses zero indicates instibility in the sensitive list being consistantly larger than the control list.  It is likely our relatively low number of participants in our UCT estimate (`r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))`) led this calculation to be overly sensitive to individual responses.  This is not the first time the UCT has provided smaller estimates than a direct estimate [@Arentoft2016], though given the high variability, we do not have confidence that this UCT estimate is a valid estimate of current QRP use.
-
-<h3> Generalized Network Scale-Up Estimate</h3>
-All participants who were randomized into the UCT estimate were also asked to answer questions about their social networks, and to estimate how many researchers they know who have used at least one QRP in the past 12 months.  Participants who were randomized into the direct estimate and who self-identified as a QRP user in that estimate were also asked to answer questions about their social network and to participate in the game of contacts method.  Participants in the direct estimate who did not self-identify as a QRP user were asked questions about their social network as well, but were not asked how many researchers they know who have used at least one QRP in the past 12 months. Therefore, we collected social network responses from `r responses %>% summarise(sum(analyzed_participants)) - direct_estimate_data %>% summarise(sum(QRP_USE))` participants from the general frame population (to be used in estimating $\delta$), `r direct_estimate_data %>% summarise(sum(QRP_USE))` responses from participants who self-identified as QRP users who also completed the game of contacts (to be used in estimating $\tau$), and `r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))` responses from participants who estimated the number of researchers they know who have used at least one QRP in the past 12 months.
-
-These `r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))` identified `r NSUM_data %>%  summarise(sum(y_i))` QRP users, and know a collective `r round(NSUM_data %>%  summarise(sum(d_i)), 0)` researchers.  Given the total frame population is `r all_people$people`, we are fairly confident all members were identified at least once by our participants.  Using the network scale-up in Equation 3, this generates an estimate of `r boot_NSUME$t0*100`% [`r boot_NSUME_ci$percent[4]*100`%, `r boot_NSUME_ci$percent[5]*100`%].  This estimate serves as the base starting point for Equation 4, the Generalized Network Scale-Up Estimator, detailed below.
-
-Equation 4 relaxes the assumptions of equal network size and total information transmission by incorporating $\tau$ and $\delta$.  Using the `r responses %>% summarise(sum(analyzed_participants)) - direct_estimate_data %>% summarise(sum(QRP_USE))` responses from the general population, plus the `r direct_estimate_data %>% summarise(sum(QRP_USE))` responses from the participants who indicated using a QRP in the past 12 months, we estimate $\delta$ as `r delta`.  Using the game of contacts, we estimate $\tau$ as `r  tau`. Using Equation 4, we estimate QRP user prevalence to be `r boot_GNSUME$t0*100`% [`r boot_GNSUME_ci$percent[4]*100`%, `r boot_GNSUME_ci$percent[5]*100`%].  This corresponds to an estimated `r round(all_people$people*boot_GNSUME$t0, 0)` American psychologists currently using QRPs.
-
-To assess the accuracy of participants in estimating the size of this unknown group (QRP users), we asked questions about `r length(validity$name)` populations of known size (number of researchers named David, named Janet, etc).  The `r length(validity$name)` names were gender balanced and represented common, uncommon, and rare names that exist within the census of the frame population.  The size estimates of these populations of known size can be seen in Figure 2.  These estimates seem reasonable and closely mirror the actual prevalence of these groups. The fact that the same estimator in the same group of participants can generate reasonable estimates for populations of known size is encouraging evidence of the accuracy of our estimate of the number of recent QRP users utilizing the generalized network scale-up estimate.
-<br><br>
-
-```{r echo = FALSE, fig.width=5, fig.height=3, fig.align="center", fig.cap="\\label{fig:fig2}Figure 2. Validation of Network Scale-Up Estimates using 24 groups of known size.  Each point represents one group, with 95% confidence intervals.  Dotted line represents when estimated group size equals actual group size."}
+```{r echo = FALSE, fig.width=3, fig.height=3, fig.align="center"}
 #this is the code block for Figure 2.
 
 #graphs validity scatterplot
-validity %>% 
+figure2 <- validity %>% 
   ggplot(aes(x = actual, y = estimate)) + geom_point(size = 1) + geom_errorbar(aes(ymin = (estimate - CI), ymax = (estimate + CI))) + theme_classic() + geom_abline(linetype = "dotted") + ylim(0, 3) + xlim(0, 3) + ylab("Estimated Prevalence of Group (%)\n") + xlab("\nActual Prevalence of Group (%)")
 
 #saves the figure as a png file (remove hashtag to save - it's hashed now for knitting purposes)
@@ -410,26 +332,131 @@ validity %>%
 
 ```
 
-<center><h3>DISCUSSION</h3></center>
+The introduction will start here.  Here is text, text, text.  Let me see if I can find some Lorum Ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultrices odio vitae nulla bibendum consequat. Duis pulvinar erat at posuere eleifend. Fusce tempor orci sed convallis aliquet. Quisque ut neque vitae nibh fermentum auctor at in purus. Cras aliquet elementum tempor. Fusce ipsum justo, condimentum eu massa sed, congue mollis quam. Sed mollis turpis diam, in porttitor ex fermentum eget. Fusce vestibulum mi in nunc bibendum, id egestas lectus ultrices. Cras nec facilisis massa.
+
+Donec et sodales nunc. Nunc cursus ultricies purus, sit amet varius ante vestibulum eget. Pellentesque ornare feugiat neque. Aliquam auctor diam tempor diam consectetur rhoncus. Morbi malesuada sodales mi, eu pellentesque velit finibus vitae. Vivamus iaculis sapien id ante accumsan auctor. In ultrices rhoncus massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+
+Integer porttitor dui eget massa vehicula pulvinar. Pellentesque id venenatis elit. Praesent condimentum quis nibh eget pretium. Pellentesque interdum risus velit, pulvinar viverra lorem vulputate vel. Vivamus vel tincidunt lorem. Duis pellentesque lacus velit, fermentum laoreet orci condimentum sit amet. Nulla fermentum, erat non rhoncus tincidunt, turpis tellus efficitur ante, ac convallis orci elit ac risus. Aliquam eget ultrices ex, ut lobortis augue.
+
+Proin pretium lectus mauris, nec egestas tortor fringilla vitae. Fusce id elit nec elit ultricies ornare quis et magna. Fusce posuere hendrerit efficitur. Donec eget consequat ex. Vestibulum scelerisque mi eget leo efficitur, in maximus erat mollis. In hac habitasse platea dictumst. Etiam congue sapien eu pharetra iaculis. Curabitur ornare tortor libero, at volutpat velit volutpat egestas.
+
+Etiam et ante orci. Nunc consequat aliquet interdum. Aliquam ante ipsum, pretium eu leo a, dignissim mollis lectus. Mauris imperdiet mi erat. Vivamus varius convallis magna vel fringilla. Vestibulum suscipit faucibus nulla vel imperdiet. Nunc et arcu finibus, porttitor dui nec, venenatis est. Proin ultricies efficitur felis, vitae porttitor arcu ultrices faucibus.
+
+# METHOD
+The work detailed in this manuscript was preregistered on May 15th, 2017.  The preregistration can be found at DOI 10.17605/OSF.IO/XU25N and www.osf.io/xu25n.
+
+## Sample
+
+The frame population was tenured or tenure-track psychologists associated with a PhD-granting institution in the United States.  The population contained `r all_people$people` individuals as of June 2017.  All `r all_people$people` members of this population were contacted via email and asked to participate.  Of the `r all_people$people` email invitations sent, `r bounce_rate$bounce` emails bounced (`r (bounce_rate$bounce/all_people$people)*100`%).  We collected `r full_responses$full` full responses (`r (full_responses$full/all_people$people)*100`% full response rate), and `r partial_responses$partial` partial responses.  Only full responses are used in the following estimations.  Additionally, `r removed$removed` participant responses were removed for either being marked complete erroneously or due to breaking estimate-specific criteria.  There was no compensation offered for participantion, and participants had 7 days to complete the survey after starting. `r female$female` (`r (female$female/full_responses$full)*100`%) participants identified as female, and `r male$male` (`r (male$male/full_responses$full)*100`%) identified as male, and `r DND_gender$DND_gender` (`r (DND_gender$DND_gender/full_responses$full)*100`%) choosing not to identify their gender.  `r assistant$assistant` (`r (assistant$assistant/full_responses$full)*100`%) participants identified as an Assistant Professor, `r associate$associate` (`r (associate$associate/full_responses$full)*100`%) as Associate Professor, and `r full$full` (`r (full$full/full_responses$full)*100`%) as Full Professor.  `r DND_tenure$DND_tenure` participants identified as tenure or tenure-track, but did not disclose their tenure level.
+
+# Procedures
+## Data Sources
+Data was collected using three surveys (as opposed to the two proposed in the preregistration), designed and distributed using Qualtrics survey software (CITATION).  Each survey asked questions designed to estimate the total social network size of the participant, as well as demographic questions.  Surveys 1 and 2 each contained questions appropriate for the UCT.  Survey 3 contained our direct estimate measure and questions used to determine transmission of QRP-identity information within an individual's social network.
+
+All surveys included the definition of "Questionable Research Practices (QRPs)".  This definition included the list of behaviors previously defined in the literature as QRPs (see Table), but omitting "fabricating data" for reasons addressed earlier.  The definition of QRP was made available on each relevant question with a mouse rollover that was first demonstrated with the initial definition.
+
+Additionally, QRP use is temporally isolated to "in the past 12 months".  Although some have found instances of underreporting when using a 12 month recall [@Landen1995; @Connelly1995], this time frame is used frequently to measure current behavior in major national data collection surveys such as the National Health Interview Survey (NHIS) [@NHIS2006] and the National Survey on Drug Use and Health [@Ahrnsbrak2017].
+
+As data was collected between September 2017 and December 2017, questions framed using "in the past 12 months" constrains actual QRP use between September 2016 and December 2017, a time frame of 15 months.  Therefore, estimates of current QRP use are based on the number of psychologists who have used at least one QRP in this time frame.
+
+# Measures
+## Direct Estimate
+For comparison to the generalized network scale-up (GNSUM) and unmatched count technique (UCT) estimates, we estimated the number of QRP users by direct estimation.  This involveds asking members of the target population whether they have used at least one QRP in the past 12 months, and is calculated as follows:
+\begin{equation}
+\rho = \frac{c}{n}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $c$ is the number of participants indicating they have used a QRP in the past 12 months, and $n$ is the total number of participant responses.
+
+## Unmatched Count Technique
+The unmatched count technique is an indirect way of measuring the base rates of concealable and potentially stigmatized identities [@Wolter2014; @Gervais2017]. In this estimate, two groups of participants are given a list of innocuous items that could apply to them (e.g., I own a dishwasher; I exercise regularly). The list of items for both groups is the same except for one additional item that one group receives and the other does not.  This extra item asks about the concealable identity (e.g., I own a dishwasher; I exercise regularly; I smoke crack cocaine [examples from [@Gervais2017]]). See Table~\ref{tab:unmatched} for the full list of items used.  Participants are asked to count and report the number of items in the list that apply to them.  At no point does a participant identify themselves with any particular list item, only the total number of applicable items.
+The proportion of participants that identify with the stigmatized identity is calculated as:
+\begin{equation}
+\rho = \frac{\sum x_y^s}{n^s} - \frac{\sum x_y^i}{n^i}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $x_y^s$ is the number of reported items for participant $y$ in the stigma list group $s$, $n^s$ is the total number of participant responses in group $s$, $x_y^i$ is the number of reported items for participant $y$ in the innocuous list group $i$, and $n^i$ is the total number of participants in group $i$.
+
+##Network Scale-Up and Generalized Network Scale-Up Methods
+Network scale-up methods estimate population sizes using information about the personal networks (i.e., ego networks) of respondents, based on the assumption that personal networks are, on average, representative of the population [@Salganik2011].  Participants were asked about how many people they "know" in the frame population.  In this study, "know" was defined as: they know you by face or by name, you know them by face or by name, you could contact the person if you wanted to, and you've been in contact in the past two years [@Bernard2010].  Participants were then asked a series of questions to estimate the total size of their social network, and the number of people they know who have used at least one QRP in the past 12 months.  Together, the network scale-up can be used to estimate the proportion of QRP users, and was calculated as follows:
+\begin{equation}
+\rho = \frac{\sum y_i}{\sum d_i}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $y_i$ is the number of people known in the target group $y$ by participant $i$, and $d_i$ is the estimated total number of people known $d$ by participant $i$ within the frame population.
+
+Equation 3 makes two assumptions: that members of the general frame population know all identity information about all members of their ego networks, and that QRP users have the same size social networks as the general frame population.  Since QRP use is concealable and potentially stigmatizing, these assumptions may not hold.  For that reason, data was collected from self-identifying QRP users to estimate how QRP-use identity information transmits through ego networks (tau, $\tau$, also called the transmission rate).  This data was collected using the game of contacts method [@Salganik2012]. A popularity ratio (delta, $\delta$) was calculated by dividing the average network size of QRP users by the average network size of the general frame population.
+
+Together, $\tau$ and $\delta$ adjust the network scale-up estimate in equation 3 into the generalized network scale-up as follows:
+\begin{equation}
+\rho = \frac{\sum y_i}{\sum d_i} * \frac{1}{\tau} * \frac{1}{\delta}
+\end{equation}
+where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $\frac{\sum y_i}{\sum d_i}$ is the network scale-up estimate (equation 3), $\tau$ is the transmission rate, and $\delta$ is the popularity ratio.  All network scale-up results are calculated using Equation 4, incorporating $\tau$ and $\delta$.
+
+## Game of Contacts
+To estimate the QRP identity transmission rate, $\tau$, we performed the game of contacts with participants who self-identified as using at least one QRP in the past 12 months.  For a full description of the game of contacts, see @Salganik2012. Briefly, this method has participants (called egos in network terminology) answer a set of questions about what they know about the QRP use of several others (called alters) in their social network, and what those alters know about the participant's QRP use.  The questions are semi-graphical and responses are recorded on a digital 2x2 grid, representing the four possible ways information can flow through a given ego-alter relationship. The transmission rate is then calculated as:
+\begin{equation}
+\tau = \frac{\sum{w_i}}{\sum{x_i}}
+\end{equation}
+where $w_i$ is the number of alters that know the ego is a member of the target population, and $x_i$ is the total number of alters generated by the ego.  This produced a value between 0 and 1.
+
+This study utilized a digital distribution of the game of contacts.  This method is typically performed in a face-to-face interview setting with the participant [@Salganik2012b].  Due to the distributed nature of our frame population, this was not feasible.  Instead, participants were presented with the game of contacts via Qualtrics.  These questions were pretested with several academics not within the frame population.  A comparison between an in-person and digital game of contacts has been pre-registered by the authors (GET PREREG LINK) for future study.
+
+# Results
+
+The three estimates of recent QRP use in the frame population of American tenured or tenure-track faculty are summarized in Figure \ref{fig:fig1}, and described in detail below.
+
+```{r fig1, echo = FALSE, fig.cap="\\label{fig:fig1}Estimates of the current prevalence of users of questionable research practices using three different estimators; the Generalized Network Scale-Up Method (GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).  Point estimates with 95% bootstrapped confidence intervals."}
+
+print(figure1)
+
+```
+
+## Direct Estimate
+To ensure the highest number of participants in our game of contacts, half of the total population were asked to participate in Survey 3, which contained our direct estimate question. Thus, `r survey3_sent` psychologists were solicited, and we received `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` responses to Survey 3 able to be analyzed. Of the `r responses %>% filter(survey == 3) %>% summarise(analyzed_participants)` participants, `r direct_estimate_data %>% summarise(QRP = sum(QRP_USE))` indicated they had used at least one QRP in the past 12 months.  Using Equation 1, we calculated QRP prevalence to be `r (boot_DE$t0)*100`% (bootstrapped 95% confidence interval [`r boot_DE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%]).  This corresponds to an estimated `r round(all_people$people*boot_DE$t0, 0)` American psychologists currently using QRPs.
+
+It is possible this estimate is underestimating the true number of psychologists using QRPs.  For one, social desirability may influence QRP users to conceal their identity when asked directly.  In that case, our estimate is only generated by those participants willing to reveal their identity.  Given the somewhat critical social environment for QRP users [@Fiske2016], it is reasonable to believe some participants withheld their identity when we asked directly.  The following indirect estimation methods sought to mitigate this social desirability bias.
+
+## Unmatched Count Technique
+The remaining `r responses %>% filter(survey != 3) %>% summarise(sum(emails_sent))` psychologists contacted were asked to participate in our unmatched count estimate with `r responses %>% filter(survey == 1) %>% summarise(emails_sent)` randomized into the innocuous list condition, and `r responses %>% filter(survey == 2) %>% summarise(emails_sent)` randomized into the sensitive list condition.
+
+The average number of list items corresponding to participants in the innocuous list condition was `r UCT_data %>% filter(survey == 1) %>% summarise(mean = mean(affirmed_items))`.  The average number of list items corresponding to participants in the sensitive list condition was `r UCT_data %>% filter(survey == 2) %>% summarise(mean = mean(affirmed_items))`.  Using Equation 2, we calculated QRP user prevalence to be `r boot_UCTE$t0*100`% [`r boot_UCTE_ci$percent[4]*100`%, `r boot_DE_ci$percent[5]*100`%].  This corresponds to an estimated `r round(all_people$people*boot_UCTE$t0, 0)` American psychologists currently using QRPs. 
+
+It was unexpected that an UCT estimate lower than our direct estimate would be calculated.  Typically, due to reducing response bias, UCT estimates tend to be larger than direct estimates when the behavior or identity in question is stigmatized [@Gervais2017; @Wolter2014; @Earleywine 2003].  The fact that the bootstrapped confidence interval crosses zero indicates instibility in the sensitive list being consistantly larger than the control list.  It is likely our relatively low number of participants in our UCT estimate (`r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))`) led this calculation to be overly sensitive to individual responses.  This is not the first time the UCT has provided smaller estimates than a direct estimate [@Arentoft 2016], though given the high variability, we do not have confidence that this UCT estimate is a valid estimate of current QRP use.
+
+## Generalized Network Scale-Up Estimate
+All participants who were randomized into the UCT estimate were also asked to answer questions about their social networks, and to estimate how many researchers they know who have used at least one QRP in the past 12 months.  Participants who were randomized into the direct estimate and who self-identified as a QRP user in that estimate were also asked to answer questions about their social network and to participate in the game of contacts method.  Participants in the direct estimate who did not self-identify as a QRP user were asked questions about their social network as well, but were not asked how many researchers they know who have used at least one QRP in the past 12 months. Therefore, we collected social network responses from `r responses %>% summarise(sum(analyzed_participants)) - direct_estimate_data %>% summarise(sum(QRP_USE))` participants from the general frame population (to be used in estimating $\delta$), `r direct_estimate_data %>% summarise(sum(QRP_USE))` responses from participants who self-identified as QRP users who also completed the game of contacts (to be used in estimating $\tau$), and `r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))` responses from participants who estimated the number of researchers they know who have used at least one QRP in the past 12 months.
+
+These `r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))` identified `r NSUM_data %>%  summarise(sum(y_i))` QRP users, and know a collective `r round(NSUM_data %>%  summarise(sum(d_i)), 0)` researchers.  Given the total frame population is `r all_people$people`, we are fairly confident all members were identified at least once by our participants.  Using the network scale-up in Equation 3, this generates an estimate of `r boot_NSUME$t0*100`% [`r boot_NSUME_ci$percent[4]*100`%, `r boot_NSUME_ci$percent[5]*100`%].  This estimate serves as the base starting point for Equation 4, the Generalized Network Scale-Up Estimator, detailed below.
+
+Equation 4 relaxes the assumptions of equal network size and total information transmission by incorporating $\tau$ and $\delta$.  Using the `r responses %>% summarise(sum(analyzed_participants)) - direct_estimate_data %>% summarise(sum(QRP_USE))` responses from the general population, plus the `r direct_estimate_data %>% summarise(sum(QRP_USE))` responses from the participants who indicated using a QRP in the past 12 months, we estimate $\delta$ as `r delta`.  Using the game of contacts, we estimate $\tau$ as `r  tau`. Using Equation 4, we estimate QRP user prevalence to be `r boot_GNSUME$t0*100`% [`r boot_GNSUME_ci$percent[4]*100`%, `r boot_GNSUME_ci$percent[5]*100`%].  This corresponds to an estimated `r round(all_people$people*boot_GNSUME$t0, 0)` American psychologists currently using QRPs.
+
+To assess the accuracy of participants in estimating the size of this unknown group (QRP users), we asked questions about `r length(validity$name)` populations of known size (number of researchers named David, named Janet, etc).  The `r length(validity$name)` names were gender balanced and represented common, uncommon, and rare names that exist within the census of the frame population.  The size estimates of these populations of known size can be seen in Figure \ref{fig:fig2}.  These estimates seem reasonable and closely mirror the actual prevalence of these groups. The fact that the same estimator in the same group of participants can generate reasonable estimates for populations of known size is encouraging evidence of the accuracy of our estimate of the number of recent QRP users utilizing the generalized network scale-up estimate.
+
+```{r fig2, echo = FALSE, fig.cap="\\label{fig:fig2}Validation of Network Scale-Up Estimates using 24 groups of known size.  Each point represents one group, with 95% confidence intervals.  Dotted line represents when estimated group size equals actual group size."}
+
+print(figure2)
+
+```
+
+# DISCUSSION
 To the best of our knowledge, this is the first report of the prevalence of QRPs in a proximal timespan.  As such, it is difficult to draw conclusions about the magnitude of our estimates when compared to previous estimates.  Compared to @John2012 and @Agnoli2017, we estimate lower rates of questionable research practices.  Compared to @Fiedler2016, however, we estimate higher rates of these practices.  Our definition of "questionable research practices" were the same ones used in @John2012 and @Agnoli2017, but was restricted to a timespan of only 15 months, so it is reasonable that our estimates would be lower than those with an unrestricted time of QRP use.  Since we used those same QRP definitions, is also reasonable that our estimates would be higher than those described by @Fiedler2016, who changed the definition of each QRP.  We also measured true “prevalence”, that is, the commonality of a behavior within a designated time frame, which was a point of difference between @John2012 and @Fiedler2016.
 
-This is also the first report to use the network scale-up and generalized network-scale up estimators to investigate the ongoing reproducibility issues in psychology.  Re-framing QRP prevalence away from the individual behavior and towards the user state brings our field-wide problems more into scope with existing literature on stigma and concealable identities.  For example, much work has been done focusing on how increasing stigma inadvertently locks individuals into detrimental behaviors [@Stuber2009], and how revealing a concealed identity can increase well-being by reducing the stress of being exposed [@Chaudoir2010].  Framing QRP use in terms of the individual may help the field reduce QRP use by increasing awareness of the effects of stigma and support.
+This is also the first report to use the network scale-up and generalized network-scale up estimators to investigate the ongoing reproducibility issues in psychology.  Re-framing QRP prevalence away from the individual behavior and towards the user state brings our field-wide problems more into scope with existing literature on stigma and concealable identities.  For example, much work has been done focusing on how increasing stigma inadvertently locks individuals into detrimental behaviors (Stuber2009), and how revealing a concealed identity can increase well-being by reducing the stress of being exposed [@Chaudoir2010].  Framing QRP use in terms of the individual may help the field reduce QRP use by increasing awareness of the effects of stigma and support.
 
-<h3>Implications</h3>
+## Implications
 These estimates serve as a baseline to measure the effectiveness of current initiatives, as well as a foundation for new ones.  While much work is being done to grow support for interventions such as pre-registration (CITATION) and Registered Reports (CITATION), it is currently unknown what quantitative effect these are having on curbing behaviors associated with inflated Type I error such as QRPs.  By performing follow-up estimates, the field can use these baseline estimates to measure the effectiveness of these programs and make informed decisions on their effectiveness.
 
-<h3>Limitations & Future Directions</h3>
+## Limitations & Future Directions
 Our unmatched count estimate produced a value with a confidence interval that crossed zero, meaning there was sufficient variance to destabilize the group difference we observed.  As mentioned previously, the relatively low number of participants for the unmatched count estimate (`r responses %>% filter(survey != 3) %>% summarise(sum(analyzed_participants))`) contributed to this high variability.  Future work using the unmatched count technique would benefit from larger sample sizes (as demonstrated in @Gervais2017, which used 2000 participants).
+
 
 These estimates were limited to American psychologists, though we know that these issues are not contained solely in the United States (Stapel CITATION).  Future studies estimating the prevalence of QRPs in other countries will be an important next step.  Some of this work has already started through the Horizon 2020 framework in the European Union (PRINTEGER CITATION), though more innovative work will be required to better understand the scope of the problems faced by our field.
 
-<h3>Conclusion</h3>
-By directly asking participants about their use of QRPs, we estimate `r boot_DE$t0*100`% have used at least one QRP in the past 12 months, and the generalized network scale up estimate is `r boot_GNSUME$t0*100`%, which corresponds to between `r round(boot_DE$t0*all_people$people, 0)` and `r round(boot_NSUME$t0*all_people$people, 0)` American psychologists.  While some argue the narrative of the "replication crisis" is overblown [@Fanelli2018], the current work illustrates how common these behaviors that inflate false-positive findingss are. Although many have called for changes in statistical inference practices to mitigate false-positive findings [@Lakensabc1860; @Benjamin2017], it is important that we as a field continue to focus on disincentivizing the use of questionable research practices (and other behavioral degrees of freedom) among our peers and coworkers for the betterment of our science.
+## Conclusion
+By directly asking participants about their use of QRPs, we estimate `r boot_DE$t0*100`% have used at least one QRP in the past 12 months, and the generalized network scale up estimate is `r boot_GNSUME$t0*100`%, which corresponds to between `r round(boot_DE$t0*all_people$people, 0)` and `r round(boot_NSUME$t0*all_people$people, 0)` American psychologists.  While some argue the narrative of the "replication crisis" is overblown [@Fanelli2018], the current work illustrates how common these behaviors that inflate false-positive findingss are. Although many have called for changes in statistical inference practices to mitigate false-positive findings [@Lakensabc1860; Benjamin2017], it is important that we as a field continue to focus on disincentivizing the use of questionable research practices (and other behavioral degrees of freedom) among our peers and coworkers for the betterment of our science.
 
 \newpage
 
 # References
-```{r create_r-references, echo = FALSE}
+```{r create_r-references}
 r_refs(file = "library.bib")
 ```
 
@@ -439,6 +466,3 @@ r_refs(file = "library.bib")
 
 <div id = "refs"></div>
 \endgroup
-
-
-
