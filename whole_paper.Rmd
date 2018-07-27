@@ -1,12 +1,13 @@
 ---
-title: How Many Psychologists Use Questionable Research Practices? <br> The HTML Version!
-author: Nicholas Fox, Nathan Honeycutt, & Lee Jussim
-date: July 18, 2018
-bibliography: ["library.bib"]
-output:
-  prettydoc::html_pretty:
-    theme: cayman
-    highlight: github
+title: "How Many Psychologists Use Questionable Research Practices? <br> The HTML Version!"
+author: "Nicholas Fox, Nathan Honeycutt, & Lee Jussim"
+date: "July 18, 2018"
+output: 
+  pdf_document:
+    fig_caption: true
+    fig_width: 5
+    fig_height: 3
+bibliography: library.bib
 ---
 
 ```{r echo = FALSE}
@@ -34,9 +35,11 @@ direct_estimate_data <- read.csv("direct_estimate_share.csv", header = TRUE)
 UCT_data <- read.csv("UCT_estimate_share.csv", header = TRUE)
 NSUM_data <- read.csv("NSUM_estimate_share.csv", header = TRUE)
 GNSUM_data <- read.csv("GNSUM_estimate_share.csv", header = TRUE)
-network_sizes <- read.csv("network_sizes.csv", header = TRUE)
 estimates <- read.csv("qrp_estimates.csv", header = TRUE)
 validity <- read.csv("validity_data_share.csv", header = TRUE)
+network_sizes_share <- read.csv("network_sizes_share.csv", header = TRUE)
+
+
 
 ```
 
@@ -225,16 +228,28 @@ DND_tenure <- responses %>%
 ```
 
 ```{r echo = FALSE}
-#this is a block of code used to generate the value of delta for the text.
-general <- network_sizes %>%
-  filter(population == "general") %>% 
-  summarise(size = mean(network_size))
-  
-QRP <- network_sizes %>% 
-  filter(population == "QRP") %>% 
-  summarise(size = mean(network_size))
+#this is a block of code used to generate the value of delta for the text
 
-delta <- QRP$size / general$size
+#this calculates the estimate for network size per participant
+network_sizes <- network_sizes_share %>% 
+  group_by(keyID) %>% 
+  mutate(d_i = (sum(name_count)/964)*7101) %>% 
+  distinct(keyID, direct_estimate, d_i) %>% 
+  ungroup()
+
+#average network size for those identifying as QRP users
+QRP_network_size <- network_sizes %>% 
+  filter(direct_estimate == 1) %>%
+  summarise(mean = mean(d_i))
+
+#average network size for general population
+general_network_size <- network_sizes %>% 
+  filter(direct_estimate == 2) %>% 
+  summarise(mean = mean(d_i))
+
+#calculation for delta
+delta <- QRP_network_size / general_network_size
+
 ```
 
 ```{r echo = FALSE}
@@ -278,7 +293,7 @@ Psychology has been in crisis.  Over the past 15 years many high-impact research
 
 
 <center><h3>How Many Psychologists Use Questionable Research Practices? <br>
-Estimating the Population Side of Current QRP Users</h3></center>
+Estimating the Population Size of Current QRP Users</h3></center>
 <br>
 It is the researcher's job to generate theories, test hypotheses, collect and interpret data, interpret results, and to publish findings. This is all done to learn more about the world and how it works. In the course of doing science, the researcher has many decisions to make: How many subjects will I use? How will I operationalize my variables? What is the population of interest that I am studying? Should certain collected observations be excluded?
 
@@ -360,7 +375,7 @@ The three estimates of recent QRP use in the frame population of American tenure
 <br><br>
 
 
-```{r echo = FALSE, fig.width=5, fig.height=3, fig.align="center", fig.cap="\\label{fig:fig1}Figure 1. Estimates of the current prevalence of users of questionable research practices using three different estimators; the Generalized Network Scale-Up Method (GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).  Point estimates with 95% bootstrapped confidence intervals."}
+```{r echo = FALSE, fig.cap = "Estimates of the current prevalence of users of questionable research practices using three different estimators; the Generalized Network Scale-Up Method (GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).  Point estimates with 95% bootstrapped confidence intervals. \\label{fig:fig1}"}
 #this is the code block for Figure 1.
 
 #turns the data into factors for graphing
@@ -374,6 +389,8 @@ estimates %>%
 #ggsave("estimate_hold.png")
 
 ```
+
+
 
 
 <h3>Direct Estimate</h3>
@@ -398,7 +415,7 @@ Equation 4 relaxes the assumptions of equal network size and total information t
 To assess the accuracy of participants in estimating the size of this unknown group (QRP users), we asked questions about `r length(validity$name)` populations of known size (number of researchers named David, named Janet, etc).  The `r length(validity$name)` names were gender balanced and represented common, uncommon, and rare names that exist within the census of the frame population.  The size estimates of these populations of known size can be seen in Figure 2.  These estimates seem reasonable and closely mirror the actual prevalence of these groups. The fact that the same estimator in the same group of participants can generate reasonable estimates for populations of known size is encouraging evidence of the accuracy of our estimate of the number of recent QRP users utilizing the generalized network scale-up estimate.
 <br><br>
 
-```{r echo = FALSE, fig.width=5, fig.height=3, fig.align="center", fig.cap="\\label{fig:fig2}Figure 2. Validation of Network Scale-Up Estimates using 24 groups of known size.  Each point represents one group, with 95% confidence intervals.  Dotted line represents when estimated group size equals actual group size."}
+```{r echo = FALSE, fig.cap="\\label{fig:fig2}Validation of Network Scale-Up Estimates using 24 groups of known size.  Each point represents one group, with 95% confidence intervals.  Dotted line represents when estimated group size equals actual group size."}
 #this is the code block for Figure 2.
 
 #graphs validity scatterplot
