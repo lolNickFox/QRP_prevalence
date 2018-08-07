@@ -1,0 +1,21 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{papaja_output_files/figure-latex/unnamed-chunk-12-1.pdf}
+\caption{\label{fig:unnamed-chunk-12}\label{fig:fig1}Estimates of the
+current prevalence of users of questionable research practices using
+three different estimators; the Generalized Network Scale-Up Method
+(GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).
+Point estimates with 95\% bootstrapped confidence intervals.}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{papaja_output_files/figure-latex/unnamed-chunk-14-1.pdf}
+\caption{\label{fig:unnamed-chunk-14}\label{fig:fig2}Validation of Network
+Scale-Up Estimates using 24 groups of known size. Each point represents
+one group, with 95\% confidence intervals. Dotted line represents when
+estimated group size equals actual group size.}
+\end{figure*}
