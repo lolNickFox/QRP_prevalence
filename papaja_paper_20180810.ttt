@@ -1,0 +1,47 @@
+\begin{table*}
+
+\caption{\label{tab:QRPs}Questionable Research Practices of interest with examples.}
+\centering
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{20em}>{\raggedright\arraybackslash}p{20em}}
+\toprule
+Item & Questionable Research Practice & Example\\
+\midrule
+1 & Failing to report all of a study's dependent measures & After measuring baseline anxiety with three different scales, only reporting one\\
+2 & Collecting more data after looking to see if the results were significant & Collecting 25 subjects' worth of data, achieving p = 0.07, then recruiting 25 more subjects\\
+3 & Failing to report all of a study's conditions & Collecting data on three experimental conditions (no/low/high anxiety), but only reporting two (no/high anxiety)\\
+4 & Stopping data collection earlier than planned because one found the result one was looking for & After collecting half the final number of proposed subjects, achieving p < 0.05, then stopping recruitment\\
+5 & Rounding off p values to achieve significance & Achieving p = 0.054, then reporting it as p = 0.05 or p < 0.05\\
+\addlinespace
+6 & Selectively reporting studies that 'worked' & Running eight studies, but only reporting the 5 that had significant findings\\
+7 & Deciding whether to exclude observations after seeing the effect of doing so on the results & Removing potential outliers based on their effect on the data and no on an a priori guideline\\
+8 & Reporting unexpected findings as being predicted from the start (a.k.a Hypothesizing After the Results are Known, or HARKing) & Predicting a relationship between A and B, but finding a relationship between A and C, reporting the A-C relationship was predicted from the start\\
+9 & Reporting results are unaffected by demographics when actually unsure or not tested & Reporting no gender differences when gender was not collected or relationship not tested\\
+\bottomrule
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{tab:UCT}Items used in the Unmatched Count Estimate.}
+\centering
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{6.3cm}l}
+\toprule
+Item & Item Type\\
+\midrule
+I am a vegtarian & Innocuous\\
+I own a dog & Innocuous\\
+I work on a computer nearly every day & Innocuous\\
+I have a dishwasher in my kitchen & Innocuous\\
+I can drive a motorcycle & Innocuous\\
+\addlinespace
+My job allows me to work from home at least once a week & Innocuous\\
+I jog at least four times a week & Innocuous\\
+I enjoy modern art & Innocuous\\
+I have attended a professional soccer match & Innocuous\\
+I have used at least one QRP in the past 12 months & Sensitive\\
+\bottomrule
+\end{tabular}
+\end{table*}

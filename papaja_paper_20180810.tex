@@ -1,4 +1,4 @@
-\documentclass[,man]{apa6}
+\documentclass[jou]{apa6}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -25,8 +25,8 @@
 \hypersetup{unicode=true,
             pdftitle={How Many Psychologists Use Questionable Research Practices? Estimating the Population Size of Current QRP Users},
             pdfauthor={Nicholas W. Fox, Nathan Honeycutt, \& Lee Jussim},
-            pdfkeywords={questionable research practices, QRPs, social networks, population size
-estimation},
+            pdfkeywords={QRPs, Questionable Research Practices, Replication Crisis, Social
+Networks},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -74,7 +74,7 @@ the Population Size of Current QRP Users}
 \affiliation{
 \vspace{0.5cm}
 \textsuperscript{1} Rutgers University}
-\keywords{questionable research practices, QRPs, social networks, population size estimation\newline\indent Word count: X}
+\keywords{QRPs, Questionable Research Practices, Replication Crisis, Social Networks\newline\indent Word count: 4,564}
 \usepackage{csquotes}
 \usepackage{upgreek}
 \captionsetup{font=singlespacing,justification=justified}
@@ -95,12 +95,6 @@ the Population Size of Current QRP Users}
 \newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
 
 
-\DeclareDelayedFloatFlavor{ThreePartTable}{table}
-\DeclareDelayedFloatFlavor{lltable}{table}
-\DeclareDelayedFloatFlavor*{longtable}{table}
-\makeatletter
-\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
-\makeatother
 
 \authornote{Department of Psychology, Rutgers University,
 Piscataway NJ 08854
@@ -120,7 +114,7 @@ questionable research practices vary widely, from over 60\% to near
 10\%. In the current work, the authors produced three estimates of the
 number of American psychologists who have used questionable research
 practices in the last 12 months, utilizing direct, indirect, and social
-network measures of estimation. We estimate up to 24.40\% of American
+network measures of estimation. We estimate up to 24.40`\% of American
 psychologists have recently used at least one questionable research
 practice. These estimates represent the first step in generating
 actionable interventions to resolve the current replication crisis and
@@ -145,29 +139,6 @@ increase trust in published research.
 \newtheorem*{solution}{Solution}
 \begin{document}
 \maketitle
-
-\begin{table}[tbp]
-\begin{center}
-\begin{threeparttable}
-\caption{\label{tab:unnamed-chunk-13}Questionable Research Practices of interest with examples.}
-\begin{tabular}{ll}
-\toprule
-Questionable Research Practice & \multicolumn{1}{c}{Example}\\
-\midrule
-Failing to report all of a study's dependent measures & After measuring baseline anxiety with three different scales, only reporting one\\
-Collecting more data after looking to see if the results were significant & Collecting 25 subjects' worth of data, achieving p = 0.07, then recruiting 25 more subjects\\
-Failing to report all of a study's conditions & Collecting data on three experimental conditions (no/low/high anxiety), but only reporting two (no/high anxiety)\\
-Stopping data collection earlier than planned because one found the result one was looking for & After collecting half the final number of proposed subjects, achieving p < 0.05, then stopping recruitment\\
-Rounding off p values to achieve significance & Achieving p = 0.054, then reporting it as p = 0.05 or p < 0.05\\
-Selectively reporting studies that 'worked' & Running eight studies, but only reporting the 5 that had significant findings\\
-Deciding whether to exclude observations after seeing the effect of doing so on the results & Removing potential outliers based on their effect on the data and no on an a priori guideline\\
-Reporting unexpected findings as being predicted from the start (a.k.a Hypothesizing After the Results are Known, or HARKing) & Predicting a relationship between A and B, but finding a relationship between A and C, reporting the A-C relationship was predicted from the start\\
-Reporting results are unaffected by demographics when actually unsure or not tested & Reporting no gender differences when gender was not collected or relationship not tested\\
-\bottomrule
-\end{tabular}
-\end{threeparttable}
-\end{center}
-\end{table}
 
 It is the researcher's job to generate theories, test hypotheses,
 collect and interpret data, interpret results, and to publish findings.
@@ -208,15 +179,38 @@ be considered questionable, these ten stand out as being familiar to
 most researchers and having been investigated previously (Agnoli,
 Wicherts, Veldkamp, Albiero, \& Cubelli, 2017; Fiedler \& Schwarz, 2016;
 John et al., 2012). For this study, nine of the ten QRPs were considered
-(Table\textasciitilde{}\ref{tab:QRPs}). We did not include
-\enquote{fabricated data} (QRP-10) as a questionable research practice
-as the authors consider this a fraudulent, not questionable, behavior.
-Not only can QRP use increase the number of false-positive findings
-(e.g., taking a \enquote{non-significant} result and pushing it over a
-threshold into being \enquote{significant}), but using multiple QRPs can
-also influence the reported effect size of a given finding due to
-sampling bias and low power (Button et al., 2013). Thus, QRP use could
-lead to field-wide interpretations that are not warranted by the data.
+(Table \ref{tab:QRPs}). We did not include \enquote{fabricated data}
+(QRP-10) as a questionable research practice as the authors consider
+this a fraudulent, not questionable, behavior. Not only can QRP use
+increase the number of false-positive findings (e.g., taking a
+\enquote{non-significant} result and pushing it over a threshold into
+being \enquote{significant}), but using multiple QRPs can also influence
+the reported effect size of a given finding due to sampling bias and low
+power (Button et al., 2013). Thus, QRP use could lead to field-wide
+interpretations that are not warranted by the data.
+
+\begin{table*}
+
+\caption{\label{tab:QRPs}Questionable Research Practices of interest with examples.}
+\centering
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{20em}>{\raggedright\arraybackslash}p{20em}}
+\toprule
+Item & Questionable Research Practice & Example\\
+\midrule
+1 & Failing to report all of a study's dependent measures & After measuring baseline anxiety with three different scales, only reporting one\\
+2 & Collecting more data after looking to see if the results were significant & Collecting 25 subjects' worth of data, achieving p = 0.07, then recruiting 25 more subjects\\
+3 & Failing to report all of a study's conditions & Collecting data on three experimental conditions (no/low/high anxiety), but only reporting two (no/high anxiety)\\
+4 & Stopping data collection earlier than planned because one found the result one was looking for & After collecting half the final number of proposed subjects, achieving p < 0.05, then stopping recruitment\\
+5 & Rounding off p values to achieve significance & Achieving p = 0.054, then reporting it as p = 0.05 or p < 0.05\\
+\addlinespace
+6 & Selectively reporting studies that 'worked' & Running eight studies, but only reporting the 5 that had significant findings\\
+7 & Deciding whether to exclude observations after seeing the effect of doing so on the results & Removing potential outliers based on their effect on the data and no on an a priori guideline\\
+8 & Reporting unexpected findings as being predicted from the start (a.k.a Hypothesizing After the Results are Known, or HARKing) & Predicting a relationship between A and B, but finding a relationship between A and C, reporting the A-C relationship was predicted from the start\\
+9 & Reporting results are unaffected by demographics when actually unsure or not tested & Reporting no gender differences when gender was not collected or relationship not tested\\
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \subsection{Prevalence of questionable research
 practices}\label{prevalence-of-questionable-research-practices}
@@ -236,7 +230,7 @@ differently worded questions, used a different conceptualization of
 \enquote{prevalence}, and tested a German (as opposed to an American)
 cohort of psychologists, Fiedler and Schwarz (2016) found less than 10\%
 prevalence of the same questionable practice (omitting dependent
-variables).Furthermore, Agnoli et al. (2017) recently replicated the
+variables). Furthermore, Agnoli et al. (2017) recently replicated the
 original John et al. (2012) study in an Italian cohort of psychologists,
 and found similarly high levels of QRP use (47.9\% of respondents had
 omitted dependent variables). Concequently, there is no current
@@ -257,24 +251,25 @@ the current issues in the field.
 
 A third unique contribution of the present research is that it assessed
 prevalence of QRP use with several starkly different methodologies. One
-was a direct estimate tightly based on prior research (Agnoli et al.,
-2017; Fiedler \& Schwarz, 2016; John et al., 2012): We simply asked
-researchers to report their own QRP use.
+was a direct estimate tightly based on prior research (i.e., (Agnoli et
+al., 2017; Fiedler \& Schwarz, 2016; John et al., 2012)): We simply
+asked researchers to report their own QRP use.
 
 However, two other methods were increasingly different from this
 straightforward assessment. One used the unmatched count technique, an
 indirect estimate aimed at reducing social desirability response bias
-(CITATION; see Method for details). A third generated an indirect
-estimate of QRP use by using social network information from the general
-population of psychologists (Jing, Qu, Yu, Wang, \& Cui, 2014; M. J.
-Salganik et al., 2011; Zhang et al., 2010; Zheng, Salganik, \& Gelman,
-2006). Neither the unmatched count technique nor these social network
-methods required participants to identify as belonging to a potentially
-stigmatized group (QRP users), thereby reducing the risk of socially
-desirable response bias compared to more traditional direct estimates.
-While network methods were expected to provide insights into QRP use
-prevalence, they have yet to be used in psychology. Thus, this work
-produced three estimates of QRP use prevalence.
+((Arentoft et al., 2016) - see Method for details). A third generated an
+indirect estimate of QRP use by using social network information from
+the general population of psychologists (Jing, Qu, Yu, Wang, \& Cui,
+2014; M. J. Salganik et al., 2011; Zhang et al., 2010; Zheng, Salganik,
+\& Gelman, 2006). Neither the unmatched count technique nor these social
+network methods required participants to identify as belonging to a
+potentially stigmatized group (i.e., QRP users), thereby reducing the
+risk of socially desirable response bias compared to more traditional
+direct estimates. While network methods were expected to provide
+insights into QRP use prevalence, they have yet to be used in
+psychology. Thus, this work produced three estimates of QRP use
+prevalence.
 
 \section{METHOD}\label{method}
 
@@ -305,18 +300,18 @@ but did not disclose their tenure level.
 
 Data was collected using three surveys (as opposed to the two proposed
 in the preregistration, see supplemental materials), designed and
-distributed using Qualtrics survey software (CITATION). Each survey
-asked questions designed to estimate the total social network size of
-the participant, as well as demographic questions. Surveys 1 and 2 each
-contained questions appropriate for the unmatched count technique (UCT).
-Survey 3 contained, instead of the UCT, our direct estimate measure and
-questions used to determine transmission of QRP-identity information
-within an individual's social network.
+distributed using Qualtrics survey software (Qualtrics, 2005). Each
+survey asked questions designed to estimate the total social network
+size of the participant, as well as demographic questions. Surveys 1 and
+2 each contained questions appropriate for the unmatched count technique
+(UCT). Survey 3 contained, instead of the UCT, our direct estimate
+measure and questions used to determine transmission of QRP-identity
+information within an individual's social network.
 
 Participants were contacted by email and provided a link to one of the
 Qualtrics surveys. Upon agreeing to the informed consent, participants
 completed the aforementioned measures. To ensure the highest number of
-participants in our game of contacts procedure (see methods), half of
+participants in our game of contacts procedure (see measures), half of
 the total population were asked to participate in Survey 3, which
 contained our direct estimate question. Thus, 3551 were solicited for
 Survey 3. The remaining 3550 psychologists contacted were asked to
@@ -375,13 +370,13 @@ apply to them (e.g., I own a dishwasher; I exercise regularly). The list
 of items for both groups is the same except for one additional item that
 one group receives and the other does not. This extra item asks about
 the concealable identity (e.g., I own a dishwasher; I exercise
-regularly; I smoke crack cocaine {[}examples from (Gervais \& Najle,
-2017){]}). See Table\textasciitilde{}\ref{tab:unmatched} for the full
-list of items used. Participants are asked to count and report the
-number of items in the list that apply to them. At no point does a
-participant identify themselves with any particular list item, only the
-total number of applicable items. The proportion of participants that
-identify with the stigmatized identity is calculated as:
+regularly; I smoke crack cocaine - examples from (Gervais \& Najle,
+2017)). See Table \ref{tab:UCT} for the full list of items used.
+Participants are asked to count and report the number of items in the
+list that apply to them. At no point does a participant identify
+themselves with any particular list item, only the total number of
+applicable items. The proportion of participants that identify with the
+stigmatized identity is calculated as:
 
 \begin{equation}
 \rho = \frac{\sum x_y^s}{n^s} - \frac{\sum x_y^i}{n^i}
@@ -433,6 +428,30 @@ assumptions: that members of the general frame population know all
 identity information about all members of their ego networks, and that
 QRP users have the same size social networks as the general frame
 population.
+
+\begin{table}
+
+\caption{\label{tab:UCT}Items used in the Unmatched Count Estimate.}
+\centering
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{6.3cm}l}
+\toprule
+Item & Item Type\\
+\midrule
+I am a vegetarian & Innocuous\\
+I own a dog & Innocuous\\
+I work on a computer nearly every day & Innocuous\\
+I have a dishwasher in my kitchen & Innocuous\\
+I can drive a motorcycle & Innocuous\\
+\addlinespace
+My job allows me to work from home at least once a week & Innocuous\\
+I jog at least four times a week & Innocuous\\
+I enjoy modern art & Innocuous\\
+I have attended a professional soccer match & Innocuous\\
+I have used at least one QRP in the past 12 months & Sensitive\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \paragraph{Generalized Network Scale-Up Method
 (GNSUM)}\label{generalized-network-scale-up-method-gnsum}
@@ -503,8 +522,8 @@ American tenured or tenure-track faculty are summarized in Figure
 
 \begin{figure}
 \centering
-\includegraphics{papaja_output_files/figure-latex/unnamed-chunk-14-1.pdf}
-\caption{\label{fig:unnamed-chunk-14}\label{fig:estimate}Estimates of the
+\includegraphics{papaja_paper_20180810_files/figure-latex/unnamed-chunk-13-1.pdf}
+\caption{\label{fig:unnamed-chunk-13}\label{fig:estimate}Estimates of the
 current prevalence of users of questionable research practices using
 three different estimators; the Generalized Network Scale-Up Method
 (GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).
@@ -613,8 +632,8 @@ recent QRP users utilizing the generalized network scale-up estimate.
 
 \begin{figure}
 \centering
-\includegraphics{papaja_output_files/figure-latex/unnamed-chunk-15-1.pdf}
-\caption{\label{fig:unnamed-chunk-15}\label{fig:validity}Validation of
+\includegraphics{papaja_paper_20180810_files/figure-latex/unnamed-chunk-14-1.pdf}
+\caption{\label{fig:unnamed-chunk-14}\label{fig:validity}Validation of
 Network Scale-Up Estimates using 24 groups of known size. Each point
 represents one group, with 95\% confidence intervals. Dotted line
 represents when estimated group prevalence equals actual group
@@ -660,7 +679,7 @@ others (Zheng et al., 2006). In the process of producing a population
 size estimate for current QRP users, we also reported the first estimate
 of the social transmission of this QRP identity - tau (\(\tau\)).
 
-Our reported estimate of\(\tau\) (0.06 or 6.02\%) means very few
+Our reported estimate of \(\tau\) (0.06 or 6.02\%) means very few
 individuals who use QRPs share this identity with others, choosing
 instead to conceal this identity from their peers. Because of this, it
 is important to shift the current conversation on QRPs away from
@@ -766,6 +785,14 @@ Results from the 2016 National Survey on Drug Use and Health.
 \emph{Substance Abuse and Mental Health Services Administration},
 \emph{7}(1), 877--726.
 doi:\href{https://doi.org/10.1016/j.drugalcdep.2016.10.042}{10.1016/j.drugalcdep.2016.10.042}
+
+\hypertarget{ref-Arentoft2016}{}
+Arentoft, A., Van Dyk, K., Thames, A. D., Sayegh, P., Thaler, N.,
+Schonfeld, D., \ldots{} Hinkin, C. H. (2016). Comparing the unmatched
+count technique and direct self-report for sensitive health-risk
+behaviors in HIV+ adults. \emph{AIDS Care - Psychological and
+Socio-Medical Aspects of AIDS/HIV}, \emph{28}(3), 370--375.
+doi:\href{https://doi.org/10.1080/09540121.2015.1090538}{10.1080/09540121.2015.1090538}
 
 \hypertarget{ref-Bayer2002}{}
 Bayer, R., \& Colgrove, J. (2002). Science, politics, and ideology in
@@ -882,6 +909,10 @@ McCormick, T. H., Salganik, M. J., \& Zheng, T. (2010). How many people
 do you know? Efficiently estimating personal network size. \emph{J Am
 Stat Assoc.}, \emph{105}(489), 59--70.
 doi:\href{https://doi.org/10.1016/j.immuni.2010.12.017.Two-stage}{10.1016/j.immuni.2010.12.017.Two-stage}
+
+\hypertarget{ref-Qualtrics}{}
+Qualtrics. (2005). Qualtrics Survey Software. Retrieved from
+\url{www.qualtrics.com}
 
 \hypertarget{ref-Salganik2011}{}
 Salganik, M. J., Fazito, D., Bertoni, N., Abdo, A. H., Mello, M. B., \&

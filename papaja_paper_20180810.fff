@@ -2,8 +2,8 @@
 \ifnextchar[{\eatarg}{}
 
 \centering
-\includegraphics{papaja_output_files/figure-latex/unnamed-chunk-14-1.pdf}
-\caption{\label{fig:unnamed-chunk-14}\label{fig:estimate}Estimates of the
+\includegraphics{papaja_paper_20180810_files/figure-latex/unnamed-chunk-13-1.pdf}
+\caption{\label{fig:unnamed-chunk-13}\label{fig:estimate}Estimates of the
 current prevalence of users of questionable research practices using
 three different estimators; the Generalized Network Scale-Up Method
 (GNSUM), the Direct Estimate, and the Unmatched Count Technique (UCT).
@@ -13,8 +13,8 @@ Point estimates with 95\% bootstrapped confidence intervals.}
 \ifnextchar[{\eatarg}{}
 
 \centering
-\includegraphics{papaja_output_files/figure-latex/unnamed-chunk-15-1.pdf}
-\caption{\label{fig:unnamed-chunk-15}\label{fig:validity}Validation of
+\includegraphics{papaja_paper_20180810_files/figure-latex/unnamed-chunk-14-1.pdf}
+\caption{\label{fig:unnamed-chunk-14}\label{fig:validity}Validation of
 Network Scale-Up Estimates using 24 groups of known size. Each point
 represents one group, with 95\% confidence intervals. Dotted line
 represents when estimated group prevalence equals actual group

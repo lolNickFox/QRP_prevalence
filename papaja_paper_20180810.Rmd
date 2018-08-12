@@ -21,26 +21,24 @@ affiliation:
 author_note: |
   Department of Psychology, Rutgers University, Piscataway NJ 08854
 
-
-
 abstract: |
-  Psychology has been in crisis.  Over the past 15 years many high-impact research findings have failed to replicate, calling into question their validity. Increased methodological and statistical scrutiny has led to field-wide introspection on how best to produce robust, reproducible, research. One focus has been on the use of questionable research practices.  Previous estimates of the number of researchers who use questionable research practices vary widely, from over 60% to near 10%.  In the current work, the authors produced three estimates of the number of American psychologists who have used questionable research practices in the last 12 months, utilizing direct, indirect, and social network measures of estimation.  We estimate up to 24.40% of American psychologists have recently used at least one questionable research practice.  These estimates represent the first step in generating actionable interventions to resolve the current replication crisis and increase trust in published research.
+  Psychology has been in crisis.  Over the past 15 years many high-impact research findings have failed to replicate, calling into question their validity. Increased methodological and statistical scrutiny has led to field-wide introspection on how best to produce robust, reproducible, research. One focus has been on the use of questionable research practices.  Previous estimates of the number of researchers who use questionable research practices vary widely, from over 60% to near 10%.  In the current work, the authors produced three estimates of the number of American psychologists who have used questionable research practices in the last 12 months, utilizing direct, indirect, and social network measures of estimation.  We estimate up to 24.40`% of American psychologists have recently used at least one questionable research practice.  These estimates represent the first step in generating actionable interventions to resolve the current replication crisis and increase trust in published research.
   
-keywords          : "questionable research practices, QRPs, social networks, population size estimation"
-wordcount         : "X"
+keywords          : "QRPs, Questionable Research Practices, Replication Crisis, Social Networks"
+wordcount         : "4,564"
 
 bibliography      : ["library.bib"]
 
-figsintext        : no
+floatsintext      : no
 figurelist        : no
 tablelist         : no
 footnotelist      : no
-lineno            : no
+linenumbers       : no
 mask              : no
-raggedbottom      : yes
+draft             : no
 
-
-class             : "man"
+documentclass     : "apa6"
+classoption       : "jou"
 output            : papaja::apa6_pdf
 ---
 
@@ -52,18 +50,26 @@ options(warn = -1, digits = 2, cache = TRUE, scipen=999)
 #install.packages("boot")
 #devtools::install_github("crsh/papaja")
 #devtools::install_github("crsh/papaja@devel")
+#devtools::install_github("benmarwick/wordcountaddin")
 #install.packages("rmarkdown")
+#install.packages("kableExtra")
+#install.packages("xtable")
 
 #devtools::session_info()
-
 #pandoc_version()
 
 #load packages
 suppressWarnings(suppressPackageStartupMessages(library(tidyverse)))
 suppressWarnings(suppressPackageStartupMessages(library(boot)))
-suppressWarnings(suppressPackageStartupMessages(library(prettydoc)))
 suppressWarnings(suppressPackageStartupMessages(library(papaja)))
 suppressWarnings(suppressPackageStartupMessages(library(rmarkdown)))
+suppressWarnings(suppressPackageStartupMessages(library(kableExtra)))
+suppressWarnings(suppressPackageStartupMessages(library(xtable)))
+suppressWarnings(suppressPackageStartupMessages(library(wordcountaddin)))
+
+#this counts all the words in the entire rmd, not including chunks, in line code, etc.
+#wordcountaddin::text_stats()
+
 
 ```
 
@@ -381,35 +387,37 @@ d_i <- NSUM_data %>%
 
 ```
 
-```{r echo = FALSE, results = "asis"}
-
-QRP_table <- c("Failing to report all of a study's dependent measures", "After measuring baseline anxiety with three different scales, only reporting one", "Collecting more data after looking to see if the results were significant", "Collecting 25 subjects' worth of data, achieving p = 0.07, then recruiting 25 more subjects", "Failing to report all of a study's conditions", "Collecting data on three experimental conditions (no/low/high anxiety), but only reporting two (no/high anxiety)", "Stopping data collection earlier than planned because one found the result one was looking for", "After collecting half the final number of proposed subjects, achieving p < 0.05, then stopping recruitment", "Rounding off p values to achieve significance", "Achieving p = 0.054, then reporting it as p = 0.05 or p < 0.05", "Selectively reporting studies that 'worked'", "Running eight studies, but only reporting the 5 that had significant findings", "Deciding whether to exclude observations after seeing the effect of doing so on the results", "Removing potential outliers based on their effect on the data and no on an a priori guideline", "Reporting unexpected findings as being predicted from the start (a.k.a Hypothesizing After the Results are Known, or HARKing)", "Predicting a relationship between A and B, but finding a relationship between A and C, reporting the A-C relationship was predicted from the start", "Reporting results are unaffected by demographics when actually unsure or not tested", "Reporting no gender differences when gender was not collected or relationship not tested")
-
-QRP_table_formatted <- matrix(QRP_table, ncol = 2, byrow = TRUE) %>% 
-  as_tibble()
-
-
-names(QRP_table_formatted) <- c("Questionable Research Practice", "Example")
-
-apa_table(QRP_table_formatted, caption = "Questionable Research Practices of interest with examples.")
-
-```
-
-
 It is the researcher's job to generate theories, test hypotheses, collect and interpret data, interpret results, and to publish findings. This is all done to learn more about the world and how it works. In the course of doing science, the researcher has many decisions to make: How many subjects will I use? How will I operationalize my variables?  What is my population of interest? Should I exclude any data from the analysis?
 
 Each decision point is a "researcher degree of freedom" [@Simmons2011], with the potential of introducing error and bias. Since there is a high level of ambiguity in research, these degrees of freedom can be resolved in different ways.  In reviewing how researchers deal with outlying observations, @Simmons2011 found different research groups made independent decisions on the best course of action.  When researchers cleaned data and removed participants that responded "too fast", some defined this as 2 standard deviations below the mean response speed, some defined it as observations below 200ms, and others removed the fastest 2.5% of respondents.  None of these definitions are inherently an incorrect interpretation of "too fast", which can be a problem: without clear standards in place, this type of flexible decision making can blur the lines between what decision is right, what decision produces the desired result, and what decision is most likely to help get a finding published.
 
-There are many "degrees of freedom" that exploit the gray areas of acceptable practice that may bias research findings [@John2012; @Wicherts2016].  Some examples include trying different ways to score the chosen primary dependent variable, and deciding how to deal with outliers in an ad hoc manner. Ten of these behaviors have been collectively called "questionable research practices" (QRPs) and are typically defined as behaviors during data collection, analysis, and reporting that have the potential to increase false-positive findings in the literature.   While there are many examples of other behaviors that could be considered questionable, these ten stand out as being familiar to most researchers and having been investigated previously [@John2012; @Fiedler2016; @Agnoli2017].  For this study, nine of the ten QRPs were considered (Table~\ref{tab:QRPs}). We did not include “fabricated data” (QRP-10) as a questionable research practice as the authors consider this a fraudulent, not questionable, behavior. Not only can QRP use increase the number of false-positive findings (e.g., taking a “non-significant” result and pushing it over a threshold into being "significant"), but using multiple QRPs can also influence the reported effect size of a given finding due to sampling bias and low power [@Button2013].  Thus, QRP use could lead to field-wide interpretations that are not warranted by the data.
+There are many "degrees of freedom" that exploit the gray areas of acceptable practice that may bias research findings [@John2012; @Wicherts2016].  Some examples include trying different ways to score the chosen primary dependent variable, and deciding how to deal with outliers in an ad hoc manner. Ten of these behaviors have been collectively called "questionable research practices" (QRPs) and are typically defined as behaviors during data collection, analysis, and reporting that have the potential to increase false-positive findings in the literature.   While there are many examples of other behaviors that could be considered questionable, these ten stand out as being familiar to most researchers and having been investigated previously [@John2012; @Fiedler2016; @Agnoli2017].  For this study, nine of the ten QRPs were considered (Table \ref{tab:QRPs}). We did not include “fabricated data” (QRP-10) as a questionable research practice as the authors consider this a fraudulent, not questionable, behavior. Not only can QRP use increase the number of false-positive findings (e.g., taking a “non-significant” result and pushing it over a threshold into being "significant"), but using multiple QRPs can also influence the reported effect size of a given finding due to sampling bias and low power [@Button2013].  Thus, QRP use could lead to field-wide interpretations that are not warranted by the data.
+
+```{r QRPs, echo = FALSE, results = "asis"}
+
+
+QRP_table <- c("1", "Failing to report all of a study's dependent measures", "After measuring baseline anxiety with three different scales, only reporting one", "2", "Collecting more data after looking to see if the results were significant", "Collecting 25 subjects' worth of data, achieving p = 0.07, then recruiting 25 more subjects", "3", "Failing to report all of a study's conditions", "Collecting data on three experimental conditions (no/low/high anxiety), but only reporting two (no/high anxiety)", "4", "Stopping data collection earlier than planned because one found the result one was looking for", "After collecting half the final number of proposed subjects, achieving p < 0.05, then stopping recruitment", "5", "Rounding off p values to achieve significance", "Achieving p = 0.054, then reporting it as p = 0.05 or p < 0.05", "6", "Selectively reporting studies that 'worked'", "Running eight studies, but only reporting the 5 that had significant findings", "7", "Deciding whether to exclude observations after seeing the effect of doing so on the results", "Removing potential outliers based on their effect on the data and no on an a priori guideline", "8", "Reporting unexpected findings as being predicted from the start (a.k.a Hypothesizing After the Results are Known, or HARKing)", "Predicting a relationship between A and B, but finding a relationship between A and C, reporting the A-C relationship was predicted from the start", "9", "Reporting results are unaffected by demographics when actually unsure or not tested", "Reporting no gender differences when gender was not collected or relationship not tested")
+
+QRP_table_formatted <- matrix(QRP_table, ncol = 3, byrow = TRUE) %>% 
+  as_tibble()
+
+names(QRP_table_formatted) <- c("Item", "Questionable Research Practice", "Example")
+
+knitr::kable(QRP_table_formatted, format = "latex", table.env='table*', caption = "Questionable Research Practices of interest with examples.", booktabs = T) %>% column_spec(2, width = "20em") %>% 
+  column_spec(3, width = "20em") %>% 
+  kable_styling(font_size = 9)
+
+```
+
 
 ## Prevalence of questionable research practices
-Consider one of the most basic questions to ask about the current replication crisis: How many people are contributing to it?  @John2012 found 63% of psychologists admitted to publishing work without all the dependent measure included (at some point in their academic career).  As articulated by @Simmons2011, this is highly problematic because increasing the number of dependent variables is correlated with an increase in the probability of finding a significant result.  Without reporting all dependent measures, readers are left with a false impression of the rarity or truthfulness of the reported findings.  But, this estimate from  @John2012 was contested by @Fiedler2016. In their conceptual replication that used  differently worded questions, used a different conceptualization of “prevalence”, and tested a German (as opposed to an American) cohort of psychologists, @Fiedler2016 found less than 10% prevalence of the same questionable practice (omitting dependent variables).Furthermore, @Agnoli2017 recently replicated the original @John2012 study in an Italian cohort of psychologists, and found similarly high levels of QRP use (47.9% of respondents had omitted dependent variables).   Concequently, there is no current consensus on the prevalence of QRP use in psychology, nor any indication of how these may be related to the current replication crisis in the field.
+Consider one of the most basic questions to ask about the current replication crisis: How many people are contributing to it?  @John2012 found 63% of psychologists admitted to publishing work without all the dependent measure included (at some point in their academic career).  As articulated by @Simmons2011, this is highly problematic because increasing the number of dependent variables is correlated with an increase in the probability of finding a significant result.  Without reporting all dependent measures, readers are left with a false impression of the rarity or truthfulness of the reported findings.  But, this estimate from  @John2012 was contested by @Fiedler2016. In their conceptual replication that used  differently worded questions, used a different conceptualization of “prevalence”, and tested a German (as opposed to an American) cohort of psychologists, @Fiedler2016 found less than 10% prevalence of the same questionable practice (omitting dependent variables). Furthermore, @Agnoli2017 recently replicated the original @John2012 study in an Italian cohort of psychologists, and found similarly high levels of QRP use (47.9% of respondents had omitted dependent variables).   Concequently, there is no current consensus on the prevalence of QRP use in psychology, nor any indication of how these may be related to the current replication crisis in the field.
 
 Given the inconsistencies in assessing the prevalence of QRP use, the present work sought to expand on this existing literature in several ways.  First, we investigated current QRP users, operationalized as a person who has used at least one of nine QRPs "in the past 12 months".  This puts QRP use into the timeframe of the current replication crisis.  Second, it addressed the larger issue of "prevalence", by defining behaviors performed within a specified time period.  Previous work estimating QRP prevalence has done so over career-long timespans or via estimating frequency of QRP use, both providing limited insight on the current issues in the field.
 
-A third unique contribution of the present research is that it assessed prevalence of QRP use with several starkly different methodologies. One was a direct estimate tightly based on prior research [@John2012;@Fiedler2016;@Agnoli2017]: We simply asked researchers to report their own QRP use.
+A third unique contribution of the present research is that it assessed prevalence of QRP use with several starkly different methodologies. One was a direct estimate tightly based on prior research (i.e., [@John2012;@Fiedler2016;@Agnoli2017]): We simply asked researchers to report their own QRP use.
 
-However, two other methods were increasingly different from this straightforward assessment.  One used the unmatched count technique, an indirect estimate aimed at reducing social desirability response bias (CITATION; see Method for details).  A third generated an indirect estimate of QRP use by using social network information from the general population of psychologists [@Salganik2011;@Zhang2010;@Zheng2006;@Jing2014].  Neither the unmatched count technique nor these social network methods required participants to identify as belonging to a potentially stigmatized group (QRP users), thereby reducing the risk of socially desirable response bias compared to more traditional direct estimates.  While network methods were expected to provide insights into QRP use prevalence, they have yet to be used in psychology.  Thus, this work produced three estimates of QRP use prevalence.
+However, two other methods were increasingly different from this straightforward assessment.  One used the unmatched count technique, an indirect estimate aimed at reducing social desirability response bias ([@Arentoft2016] - see Method for details).  A third generated an indirect estimate of QRP use by using social network information from the general population of psychologists [@Salganik2011;@Zhang2010;@Zheng2006;@Jing2014].  Neither the unmatched count technique nor these social network methods required participants to identify as belonging to a potentially stigmatized group (i.e., QRP users), thereby reducing the risk of socially desirable response bias compared to more traditional direct estimates.  While network methods were expected to provide insights into QRP use prevalence, they have yet to be used in psychology.  Thus, this work produced three estimates of QRP use prevalence.
 
 # METHOD
 The work detailed in this manuscript was preregistered on May 15th, 2017.  The preregistration can be found at www.osf.io/xu25n and is detailed in the supplemental materials.
@@ -418,9 +426,9 @@ The work detailed in this manuscript was preregistered on May 15th, 2017.  The p
 The frame population was tenured or tenure-track faculty associated with a psychology department at a PhD-granting institution in the United States.  The population contained `r format(all_people$people, big.mark = ",")` individuals as of June 2017.  All `r format(all_people$people, big.mark = ",")` members of this population were contacted via email and asked to participate.  Of the `r format(all_people$people, big.mark = ",")` email invitations sent, `r bounce_rate$bounce` emails bounced (`r (bounce_rate$bounce/all_people$people)*100`%).  We collected `r full_responses$full` full responses (`r (full_responses$full/all_people$people)*100`% full response rate), and `r partial_responses$partial` partial responses.  Only full responses are used in the following estimations.  Additionally, `r removed$removed` participant responses were removed for either being marked complete erroneously or due to breaking estimate-specific criteria.  There was no compensation offered for participation. `r female$female` (`r (female$female/full_responses$full)*100`%) participants identified as female, `r male$male` (`r (male$male/full_responses$full)*100`%) identified as male, and `r DND_gender$DND_gender` (`r (DND_gender$DND_gender/full_responses$full)*100`%) chose not to identify their gender.  `r assistant$assistant` (`r (assistant$assistant/full_responses$full)*100`%) participants identified as an Assistant Professor, `r associate$associate` (`r (associate$associate/full_responses$full)*100`%) as Associate Professor, and `r full$full` (`r (full$full/full_responses$full)*100`%) as Full Professor.  `r DND_tenure$DND_tenure` participants identified as tenure or tenure-track, but did not disclose their tenure level.
 
 ## Data Sources
-Data was collected using three surveys (as opposed to the two proposed in the preregistration, see supplemental materials), designed and distributed using Qualtrics survey software (CITATION).  Each survey asked questions designed to estimate the total social network size of the participant, as well as demographic questions.  Surveys 1 and 2 each contained questions appropriate for the unmatched count technique (UCT).  Survey 3 contained, instead of the UCT, our direct estimate measure and questions used to determine transmission of QRP-identity information within an individual's social network.
+Data was collected using three surveys (as opposed to the two proposed in the preregistration, see supplemental materials), designed and distributed using Qualtrics survey software [@Qualtrics].  Each survey asked questions designed to estimate the total social network size of the participant, as well as demographic questions.  Surveys 1 and 2 each contained questions appropriate for the unmatched count technique (UCT).  Survey 3 contained, instead of the UCT, our direct estimate measure and questions used to determine transmission of QRP-identity information within an individual's social network.
 
-Participants were contacted by email and provided a link to one of the Qualtrics surveys.  Upon agreeing to the informed consent, participants completed the aforementioned measures.  To ensure the highest number of participants in our game of contacts procedure (see methods), half of the total population were asked to participate in Survey 3, which contained our direct estimate question.  Thus, `r DE_solicit$emails_sent` were solicited for Survey 3.  The remaining `r remaining$sum` psychologists contacted were asked to participate in our unmatched count estimate (Survey 1 or Survey 2), with `r ILC_participants$sum` randomized into the innocuous list group, and `r SLC_participants$sum` randomized into the concealable list group.  Participants had seven days to complete the survey upon starting.  Since data was collected between September 2017 and December 2017, questions framed "in the past 12 months" bound actual QRP use between September 2016 and December 2017, a time frame of 15 months.  Therefore, estimates of "current QRP use" are based on the number of psychologists who have used at least one QRP in this time frame.
+Participants were contacted by email and provided a link to one of the Qualtrics surveys.  Upon agreeing to the informed consent, participants completed the aforementioned measures.  To ensure the highest number of participants in our game of contacts procedure (see measures), half of the total population were asked to participate in Survey 3, which contained our direct estimate question.  Thus, `r DE_solicit$emails_sent` were solicited for Survey 3.  The remaining `r remaining$sum` psychologists contacted were asked to participate in our unmatched count estimate (Survey 1 or Survey 2), with `r ILC_participants$sum` randomized into the innocuous list group, and `r SLC_participants$sum` randomized into the concealable list group.  Participants had seven days to complete the survey upon starting.  Since data was collected between September 2017 and December 2017, questions framed "in the past 12 months" bound actual QRP use between September 2016 and December 2017, a time frame of 15 months.  Therefore, estimates of "current QRP use" are based on the number of psychologists who have used at least one QRP in this time frame.
 
 All surveys included the definition of "Questionable Research Practices (QRPs)".  This definition included the list of behaviors previously defined in the literature as QRPs (see Table), but omitting "fabricating data" for reasons addressed earlier.  The definition of QRP was made available on each relevant question with a mouse rollover that was first demonstrated with the initial definition.  For the full text of our definition used, see supplemental materials.
 
@@ -435,7 +443,7 @@ The direct estimate involved asking members of the target population whether the
 where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $c$ is the number of participants indicating they have used a QRP in the past 12 months, and $n$ is the total number of participant responses.
 
 ### Unmatched Count Technique
-The unmatched count technique (UCT) is an indirect way of measuring the base rates of concealable and potentially stigmatized identities [@Wolter2014;@Gervais2017]. In this estimate, two groups of participants are given a list of innocuous items that could apply to them (e.g., I own a dishwasher; I exercise regularly). The list of items for both groups is the same except for one additional item that one group receives and the other does not.  This extra item asks about the concealable identity (e.g., I own a dishwasher; I exercise regularly; I smoke crack cocaine [examples from [@Gervais2017]]). See Table~\ref{tab:unmatched} for the full list of items used.  Participants are asked to count and report the number of items in the list that apply to them.  At no point does a participant identify themselves with any particular list item, only the total number of applicable items.
+The unmatched count technique (UCT) is an indirect way of measuring the base rates of concealable and potentially stigmatized identities [@Wolter2014;@Gervais2017]. In this estimate, two groups of participants are given a list of innocuous items that could apply to them (e.g., I own a dishwasher; I exercise regularly). The list of items for both groups is the same except for one additional item that one group receives and the other does not.  This extra item asks about the concealable identity (e.g., I own a dishwasher; I exercise regularly; I smoke crack cocaine - examples from [@Gervais2017]). See Table \ref{tab:UCT} for the full list of items used.  Participants are asked to count and report the number of items in the list that apply to them.  At no point does a participant identify themselves with any particular list item, only the total number of applicable items.
 The proportion of participants that identify with the stigmatized identity is calculated as:
 \begin{equation}
 \rho = \frac{\sum x_y^s}{n^s} - \frac{\sum x_y^i}{n^i}
@@ -451,6 +459,22 @@ Participants were asked about how many people they "know" in the frame populatio
 \rho = \frac{\sum y_i}{\sum d_i}
 \end{equation}
 where $\rho$ is the proportion estimate of people who have used at least one QRP in the past 12 months, $y_i$ is the number of people known in the target group $y$ by participant $i$, and $d_i$ is the estimated total number of people known $d$ by participant $i$ within the frame population (see [@Killworth1998a] for more on estimating $d$).  Equation 3 makes two assumptions: that members of the general frame population know all identity information about all members of their ego networks, and that QRP users have the same size social networks as the general frame population.  
+
+```{r UCT, echo = FALSE, results = "asis"}
+
+UCT_table <- c("I am a vegetarian", "Innocuous", "I own a dog", "Innocuous", "I work on a computer nearly every day", "Innocuous", "I have a dishwasher in my kitchen", "Innocuous", "I can drive a motorcycle", "Innocuous", "My job allows me to work from home at least once a week", "Innocuous", "I jog at least four times a week", "Innocuous", "I enjoy modern art", "Innocuous", "I have attended a professional soccer match", "Innocuous", "I have used at least one QRP in the past 12 months", "Sensitive")
+
+UCT_table_formatted <- matrix(UCT_table, ncol = 2, byrow = TRUE) %>% 
+  as_tibble()
+
+names(UCT_table_formatted) <- c("Item", "Item Type")
+
+UCT_table_formatted %>% 
+  kable("latex", booktabs = T, caption = "Items used in the Unmatched Count Estimate.") %>%
+  kable_styling(font_size = 9) %>% 
+  column_spec(1, width = "6.3cm")
+
+```
 
 #### Generalized Network Scale-Up Method (GNSUM)
 Since QRP use is concealable and potentially stigmatizing, the assumptions made for Equation 3 not hold.  For that reason, data was collected from self-identifying QRP users to estimate how QRP-use identity information transmits through ego networks.  This estimate is called the transmission rate, or tau ($\tau$).  This data was collected using the game of contacts method [@Salganik2012], described below.
@@ -535,7 +559,7 @@ This is also the first report to use the generalized network-scale up estimators
 
 Social network methods, on the other hand, enable researchers to better understand the social processes at work that produce an environment where members vary in their identity and the information they share with others [@Zheng2006].  In the process of producing a population size estimate for current QRP users, we also reported the first estimate of the social transmission of this QRP identity - tau ($\tau$).
 
-Our reported estimate of$\tau$ (`r tau` or `r  tau*100`%) means very few individuals who use QRPs share this identity with others, choosing instead to conceal this identity from their peers.  Because of this, it is important to shift the current conversation on QRPs away from isolated behaviors (i.e., prevalence of rounding down p values) and towards the usuers of these behaviors (i.e., prevalence of people who round down p values).  Re-framing QRP prevalence away from the behavior and towards the users brings our field-wide problems more into scope with existing literature on concealable identities and stigma.  For example, much work has been done focusing on how increasing stigma inadvertently locks individuals into detrimental behaviors [@Stuber2009;@Bayer2002], and how revealing a concealed identity can increase well-being by reducing the stress of being exposed [@Chaudoir2010]. Framing QRP use in terms of the individual may help the field reduce QRP use by increasing awareness of the effects of stigma and support.
+Our reported estimate of $\tau$ (`r tau` or `r  tau*100`%) means very few individuals who use QRPs share this identity with others, choosing instead to conceal this identity from their peers.  Because of this, it is important to shift the current conversation on QRPs away from isolated behaviors (i.e., prevalence of rounding down p values) and towards the usuers of these behaviors (i.e., prevalence of people who round down p values).  Re-framing QRP prevalence away from the behavior and towards the users brings our field-wide problems more into scope with existing literature on concealable identities and stigma.  For example, much work has been done focusing on how increasing stigma inadvertently locks individuals into detrimental behaviors [@Stuber2009;@Bayer2002], and how revealing a concealed identity can increase well-being by reducing the stress of being exposed [@Chaudoir2010]. Framing QRP use in terms of the individual may help the field reduce QRP use by increasing awareness of the effects of stigma and support.
 
 ## Implications
 These estimates serve as a baseline to measure the effectiveness of current initiatives, as well as a foundation for new ones.  While much work is being done to grow support for interventions such as pre-registration [@Wagenmakers2016] and Registered Reports [@Chambers2014], it is currently unknown what quantitative effect these are having on curbing behaviors associated with inflated Type I error such as QRPs.  By performing follow-up estimates at future time points, the field can use the baseline estimates presented here to measure the effectiveness of these programs at reducing QRP use.
