@@ -1,0 +1,237 @@
+\documentclass[man]{apa6}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Supplemental Materials for How Many Psychologists Use Questionable Research Practices? Estimating the Population Size of Current QRP Users},
+            pdfauthor={Nicholas W. Fox, Nathan Honeycutt, \& Lee Jussim},
+            pdfkeywords={QRPs, Questionable Research Practices, Replication Crisis, Social
+Networks},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+
+  \title{Supplemental Materials for `How Many Psychologists Use Questionable
+Research Practices? Estimating the Population Size of Current QRP Users'}
+    \author{Nicholas W. Fox\textsuperscript{1}, Nathan Honeycutt\textsuperscript{1},
+\& Lee Jussim\textsuperscript{1}}
+    \date{}
+  
+\shorttitle{SM: How Many Psychologists Use QRPs}
+\affiliation{
+\vspace{0.5cm}
+\textsuperscript{1} Rutgers University}
+\keywords{QRPs, Questionable Research Practices, Replication Crisis, Social Networks\newline\indent Word count: 4,492}
+\usepackage{csquotes}
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage[flushleft]{threeparttable}
+\usepackage{threeparttablex}
+
+\newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
+
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
+\usepackage{tcolorbox}
+
+\authornote{Department of Psychology, Rutgers University,
+Piscataway NJ 08854.
+
+Correspondence concerning this article should be addressed to Nicholas
+W. Fox, 53 Avenue E, Room 429, Piscataway NJ 08854. E-mail:
+\href{mailto:nwf7@psych.rutgers.edu}{\nolinkurl{nwf7@psych.rutgers.edu}}}
+
+\abstract{
+These are the supplemental materials for ``How Many Psychologists Use
+Questionable Research Practices? Estimating the Population Size of
+Current QRP Users''. This file may change as more information is added.
+
+
+}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+\begin{document}
+\maketitle
+
+\section{Supplemental Materials}\label{supplemental-materials}
+
+\subsection{Study Preregistration}\label{study-preregistration}
+
+This study was preregistered on May 15th, 2017 and can be found at
+\url{https://osf.io/xu25n/}. The final study deviated from the
+preregistration in three places.
+
+First, the title changed from the working title of \enquote{How Many
+Psychologists Use QRPs? A Social Network Approach to Estimating Hidden
+Population Size} to \enquote{How Many Psychologists Use Questionable
+Research Practices? Estimating the Population Size of Current QRP
+Users}. This change was made for two reasons. First, we did not want to
+assume all readers had an innate knowledge of what \enquote{QRPs} meant,
+so we wanted to avoid using the abbreviation solely in the title.
+Second, as the paper has multiple estimates, and not just social network
+estimates, we wanted to broaden the scope of the title to be inclusive
+of the direct and indirect estimates.
+
+Second, Nathan Honeycutt was added as an author. His contribution to the
+final paper was in providing constructive comments during the drafting
+of the manuscript and proofreading the final document. Due to his
+substantial contributions to the readability and flow of the final
+document, authhorship was warrented.
+
+Third, we preregistered that this work would be conducted using two
+surveys, when instead we used three surveys for this project.
+Originally, the direct estimate and game of contacts methods would have
+followed the innoculus list condition of the UCT. However, upon further
+research, the primary author wanted to avoid potential priming effects
+of one estimate on how participant's responded to the subsequent direct
+estimate. Therefore, the decision was made to split the direct estimate
+(and the subsequent game of contacts method) into a new survey (Survey
+3). Therefore, the final survey methodology consisted of three surveys,
+with one containing the innocuous UCT condition, one containing the
+sensitive UCT condition, and one constaining the direct estimate.
+
+\subsection{Questionable Research Practice
+Definition}\label{questionable-research-practice-definition}
+
+Questionable Research Practices were defined to participants in the
+following way: ``Some of the following questions may ask you about
+Questionable Research Practices, or QRPs. We define a Questionable
+Research Practice (QRP) as one of the 9 following behaviors when
+collecting, analyzing, or publishing scientific data performed in the
+past 12 months:
+
+\begin{itemize}
+\item Deciding whether to collect more data after looking to see whether the results were statistically significant.
+\item Deciding whether to exclude data after looking at the impact of doing so on the results. 
+\item Stopping collecting data earlier than planned because one found the result one had been looking for. 
+\end{itemize}
+
+or, in a paper published in the past 12 months:
+
+\begin{itemize}
+\item Did not report all of the study's dependent measures. 
+\item Did not report all of a study's conditions.
+\item "Rounding off" a p value (e.g., reporting that a p value of 0.054 is less than 0.05).
+\item Selectively reporting studies that "worked". 
+\item Reporting an unexpected finding as having been predicted from the start. 
+\item Claiming that results are unaffected by demographic variables (e.g., gender) when one is actually unsure (or knows that they do).
+ \end{itemize}
+
+This definition will be available to you by hovering over any question
+with an underlined \enquote{\underline{QRP}}
+
+Try hovering over the highlighted text now. When you understand the
+definitions listed above, please continue by clicking the "
+\textgreater{}\textgreater{}\textgreater{}" button below."
+
+The underlined \enquote{QRP} in the above definition, when moused-over
+by the participant, produced a pop-out window in Qualtrics that provided
+the following information: ``A QRP is one of the following:
+
+\begin{itemize}
+\item Deciding whether to collect more data after looking to see whether the results were statistically significant.
+\item Deciding whether to exclude data after looking at the impact of doing so on the results.
+\item Stopping collecting data earlier than planned because one found the result one had been looking for.
+
+or, in a paper published in the past 12 months:
+\item Did not report all of a study's dependent measures.
+\item Did not report all of a study's conditions.
+\item "Rounding off" a p value (e.g., reporting that a p value of 0.054 is less than 0.05).
+\item Selectively reporting studies that "worked".
+\item Reporting an unexpected finding as having been predicted from the start.
+\item Claiming that results are unaffected by demographic variables (e.g., gender) when one is actually unsure (or knows that they do)."
+\end{itemize}
+
+\newpage
+
+\begingroup
+\setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
+
+\hypertarget{refs}{}
+
+\endgroup
+
+
+\end{document}

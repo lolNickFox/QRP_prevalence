@@ -1,0 +1,113 @@
+---
+title             : "Supplemental Materials for 'How Many Psychologists Use Questionable Research Practices? Estimating the Population Size of Current QRP Users'"
+shorttitle        : "SM: How Many Psychologists Use QRPs"
+
+author: 
+  - name          : "Nicholas W. Fox"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "53 Avenue E, Room 429, Piscataway NJ 08854"
+    email         : "nwf7@psych.rutgers.edu"
+  - name          : "Nathan Honeycutt"
+    affiliation   : "1"
+  - name          : "Lee Jussim"
+    affiliation   : "1"
+
+affiliation:
+  - id            : "1"
+    institution   : "Rutgers University"
+
+authornote: |
+  Department of Psychology, Rutgers University, Piscataway NJ 08854.
+
+abstract: |
+  These are the supplemental materials for "How Many Psychologists Use Questionable Research Practices? Estimating the Population Size of Current QRP Users".  This file may change as more information is added.
+  
+keywords          : "QRPs, Questionable Research Practices, Replication Crisis, Social Networks"
+wordcount         : "4,492"
+
+bibliography      : ["library.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : no
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+
+header-includes   :
+  - \usepackage{tcolorbox}
+
+---
+
+
+# Supplemental Materials
+
+## Study Preregistration
+
+This study was preregistered on May 15th, 2017 and can be found at https://osf.io/xu25n/.  The final study deviated from the preregistration in three places.  
+
+First, the title changed from the working title of "How Many Psychologists Use QRPs?  A Social Network Approach to Estimating Hidden Population Size" to "How Many Psychologists Use Questionable Research Practices? Estimating the Population Size of Current QRP Users".  This change was made for two reasons.  First, we did not want to assume all readers had an innate knowledge of what "QRPs" meant, so we wanted to avoid using the abbreviation solely in the title.  Second, as the paper has multiple estimates, and not just social network estimates, we wanted to broaden the scope of the title to be inclusive of the direct and indirect estimates.
+
+Second, Nathan Honeycutt was added as an author.  His contribution to the final paper was in providing constructive comments during the drafting of the manuscript and proofreading the final document.  Due to his substantial contributions to the readability and flow of the final document, authhorship was warrented.
+
+Third, we preregistered that this work would be conducted using two surveys, when instead we used three surveys for this project.  Originally, the direct estimate and game of contacts methods would have followed the innoculus list condition of the UCT.  However, upon further research, the primary author wanted to avoid potential priming effects of one estimate on how participant's responded to the subsequent direct estimate.  Therefore, the decision was made to split the direct estimate (and the subsequent game of contacts method) into a new survey (Survey 3).  Therefore, the final survey methodology consisted of three surveys, with one containing the innocuous UCT condition, one containing the sensitive UCT condition, and one constaining the direct estimate.  
+
+## Questionable Research Practice Definition
+
+Questionable Research Practices were defined to participants in the following way:
+"Some of the following questions may ask you about Questionable Research Practices, or QRPs.
+We define a Questionable Research Practice (QRP) as one of the 9 following behaviors when collecting, analyzing, or publishing scientific data performed in the past 12 months:
+\begin{itemize}
+\item Deciding whether to collect more data after looking to see whether the results were statistically significant.
+\item Deciding whether to exclude data after looking at the impact of doing so on the results. 
+\item Stopping collecting data earlier than planned because one found the result one had been looking for. 
+\end{itemize}
+or, in a paper published in the past 12 months:
+\begin{itemize}
+\item Did not report all of the study's dependent measures. 
+\item Did not report all of a study's conditions.
+\item "Rounding off" a p value (e.g., reporting that a p value of 0.054 is less than 0.05).
+\item Selectively reporting studies that "worked". 
+\item Reporting an unexpected finding as having been predicted from the start. 
+\item Claiming that results are unaffected by demographic variables (e.g., gender) when one is actually unsure (or knows that they do).
+ \end{itemize}
+This definition will be available to you by hovering over any question with an underlined "\underline{QRP}"
+
+Try hovering over the highlighted text now.
+When you understand the definitions listed above, please continue by clicking the " >>>" button below."
+
+The underlined "QRP" in the above definition, when moused-over by the participant, produced a pop-out window in Qualtrics that provided the following information:
+"A QRP is one of the following:
+\begin{itemize}
+\item Deciding whether to collect more data after looking to see whether the results were statistically significant.
+\item Deciding whether to exclude data after looking at the impact of doing so on the results.
+\item Stopping collecting data earlier than planned because one found the result one had been looking for.
+
+or, in a paper published in the past 12 months:
+\item Did not report all of a study's dependent measures.
+\item Did not report all of a study's conditions.
+\item "Rounding off" a p value (e.g., reporting that a p value of 0.054 is less than 0.05).
+\item Selectively reporting studies that "worked".
+\item Reporting an unexpected finding as having been predicted from the start.
+\item Claiming that results are unaffected by demographic variables (e.g., gender) when one is actually unsure (or knows that they do)."
+\end{itemize}
+
+
+
+
+
+\newpage
+
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup
